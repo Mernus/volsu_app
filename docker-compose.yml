@@ -1,0 +1,45 @@
+version: '3'
+services:
+  emanager_nginx:
+    image: nginx:alpine
+    container_name: nginx
+    volumes:
+      - ./runserv/nginx.conf:/etc/nginx/nginx.conf
+      - ./media:/server/media
+      - ./staticfiles:/server/static
+    ports:
+      - "81:80"
+      - "443:443"
+    depends_on:
+      - emanager_app
+
+  emanager_db:
+    image: postgres:10-alpine
+    container_name: database
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: em1111
+      POSTGRES_DB: event_manager
+
+  emanager_app:
+    container_name: emanager
+    build:
+      context: .
+      dockerfile: runserv/Dockerfile
+    environment:
+      - DJANGO_DEBUG=1
+      - DJANGO_ALLOWED_HOSTS=event_manager.lvh.me
+      - DB_DATABASE=event_manager
+      - DB_HOST=emanager_db
+      - DB_PORT=5432
+      - DB_PASSWORD=em1111
+      - DB_USER=postgres
+    volumes:
+      - .:/source
+    command: ["control", "uwsgi"]
+    depends_on:
+      - emanager_db
+
+  redis:
+    image: redis:alpine
+    container_name: redis
