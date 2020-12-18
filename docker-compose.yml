@@ -26,9 +26,10 @@ services:
     build:
       context: .
       dockerfile: runserv/Dockerfile
+    restart: always
     environment:
       - DJANGO_DEBUG=1
-      - DJANGO_ALLOWED_HOSTS=event_manager.lvh.me
+      - DJANGO_ALLOWED_HOSTS=emanager.lvh.me
       - DB_DATABASE=event_manager
       - DB_HOST=emanager_db
       - DB_PORT=5432
@@ -36,9 +37,11 @@ services:
       - DB_USER=postgres
     volumes:
       - .:/source
-    command: ["control", "uwsgi"]
+    ports:
+      - "8000:8080"
     depends_on:
       - emanager_db
+      - redis
 
   redis:
     image: redis:alpine
