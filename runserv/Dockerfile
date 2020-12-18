@@ -1,4 +1,4 @@
-FROM python:3.10.0a3-buster
+FROM python:3.9
 RUN mkdir /source
 RUN mkdir /logs
 WORKDIR /source
