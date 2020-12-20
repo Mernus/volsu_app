@@ -21,11 +21,15 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'django_extensions',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'timezone_field',
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication'],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
@@ -68,7 +72,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('DB_DATABASE', 'event_manager'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'em1111'),
-        'USER': os.getenv('DB_USER', 'postgres'),
+        'USER': os.getenv('DB_USER', 'emanager'),
         'HOST': os.getenv('DB_HOST', 'emanager_db'),
         'PORT': int(os.getenv('DB_PORT', 5432)),
     }
@@ -100,6 +104,4 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, '../static'),
-)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')

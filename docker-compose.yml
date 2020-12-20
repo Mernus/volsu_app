@@ -14,12 +14,13 @@ services:
       - emanager_app
 
   emanager_db:
-    image: postgres:10-alpine
+    image: postgres:13-alpine
     container_name: database
     restart: always
-    environment:
-      POSTGRES_PASSWORD: em1111
-      POSTGRES_DB: event_manager
+    env_file:
+      - .env
+    volumes:
+      - ./runserv/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
 
   emanager_app:
     container_name: emanager
@@ -34,7 +35,7 @@ services:
       - DB_HOST=emanager_db
       - DB_PORT=5432
       - DB_PASSWORD=em1111
-      - DB_USER=postgres
+      - DB_USER=emanager
     volumes:
       - .:/source
     ports:
