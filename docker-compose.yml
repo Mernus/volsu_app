@@ -5,8 +5,8 @@ services:
     container_name: nginx
     volumes:
       - ./runserv/nginx.conf:/etc/nginx/nginx.conf
-      - ./media:/server/media
-      - ./staticfiles:/server/static
+      - ./media:/source/media
+      - ./static:/source/static
     ports:
       - "81:80"
       - "443:443"

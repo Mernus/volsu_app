@@ -3,6 +3,7 @@ set -e
 
 if [ "$1" == "uwsgi" ]; then
     echo "Running migrations"
+    python manage.py makemigrations --noinput
     python manage.py migrate --noinput
     echo "Running collectstatic"
     python manage.py collectstatic --noinput

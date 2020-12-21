@@ -11,9 +11,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 RUN touch /reload
 
-RUN mkdir -p ../media
-RUN mkdir -p ../static
-
 COPY runserv/entrypoint.sh /usr/local/bin/
 RUN ln -s /usr/local/bin/entrypoint.sh /
 

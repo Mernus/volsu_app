@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
 
-psql -v --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" --command "CREATE USER ${DB_USER} WITH SUPERUSER PASSWORD '${DB_PASSWORD}';" &&\
-psql  -v --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" --command "CREATE DATABASE ${DB_DATABASE} WITH OWNER ${DB_USER};" &&\
-psql -v --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" --command "CREATE EXTENSION citext;"
+psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "CREATE USER ${DB_USER} WITH SUPERUSER PASSWORD '${DB_PASSWORD}';" &&\
+psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "CREATE DATABASE ${DB_DATABASE} WITH OWNER ${DB_USER};" &&\
+psql -U "$DB_USER" -d "$DB_DATABASE" -c "CREATE EXTENSION citext;"
