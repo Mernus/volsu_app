@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.utils import timezone
 
-from main.models import Event, EVENT_STATUSES
+from main.models import Event, EVENT_STATUSES, get_popular_tags
 
 
 class EventAdminForm(forms.ModelForm):
@@ -27,22 +27,27 @@ class EventAdminForm(forms.ModelForm):
 class EventAdmin(admin.ModelAdmin):
     form = EventAdminForm
 
-    def author_name(self, obj):
-        return obj.author.name
-    author_name.admin_order_field = 'author__name'
+    def author_fullname(self, obj):
+        return obj.author.fullname
+    author_fullname.admin_order_field = 'author__fullname'
+
+    def event_tags(self, obj):
+        return obj.tags.order_by('events_num')[:10]
+    event_tags.admin_order_field = 'event__tags'
 
     date_hierarchy = 'start_date'
     readonly_fields = ('status',)
-    list_display = ('title', 'author_name', 'start_date', 'end_date', 'status')
+    list_display = ('title', 'author_fullname', 'status', 'event_tags')
     list_display_links = ('title',)
     radio_fields = {'status': admin.VERTICAL}
     list_filter = (
         ('author', admin.RelatedOnlyFieldListFilter),
         ('status', admin.ChoicesFieldListFilter),
-        ('start_date', admin.DateFieldListFilter)
+        ('start_date', admin.DateFieldListFilter),
+        ('tags', admin.RelatedOnlyFieldListFilter),
     )
     list_per_page = 10
-    search_fields = ('title', 'author_name', 'start_date', 'end_date')
+    search_fields = ('title', 'author', 'start_date', 'end_date', 'tags')
 
     def save_model(self, request, obj, form, change):
         now = timezone.now()

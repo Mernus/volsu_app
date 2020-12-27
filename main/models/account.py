@@ -22,9 +22,14 @@ class Account(models.Model):
     added = CreationDateTimeField(verbose_name='Дата создания')
     updated = ModificationDateTimeField(verbose_name='Дата последнего изменения')
     timezone = TimeZoneField(default='Europe/Moscow', verbose_name="Часовой пояс")
+    email = models.EmailField(verbose_name='Мейл аккаунта', unique=True)
     level = models.IntegerField(verbose_name='Уровень прав аккаунта',
                                 choices=ACCOUNT_LEVELS,
                                 default=ACCOUNT_LEVELS.DEFAULT)
 
-    def __str__(self):
+    @property
+    def fullname(self):
         return f'{self.name}: {self.level}'
+
+    def __str__(self):
+        return self.fullname

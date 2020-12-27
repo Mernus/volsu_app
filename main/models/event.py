@@ -29,7 +29,7 @@ class Event(TimeStampedModel):
     title = models.CharField(verbose_name='Название события', max_length=100, unique=True)
     slug = AutoSlugField(populate_from=['author', 'title'])
     tags = models.ManyToManyField('Tag', blank=True, verbose_name='Теги события')
-    author = models.ForeignKey('Account', null=True, on_delete=models.SET_NULL, verbose_name='Организатор события')
+    author = models.ForeignKey('Account', blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Организатор события')
     participants = models.ManyToManyField('Account', blank=True,
                                           verbose_name='Участники события',
                                           related_name='participants')
@@ -42,9 +42,13 @@ class Event(TimeStampedModel):
     public_objects = QueryManager(author__isnull=False, status__in=PUBLIC_EVENT_STATUSES)
     changes = FieldTracker()
 
-    def __str__(self):
-        event_repr = f'{ self.author }: { self.title }'
+    @property
+    def fullname(self):
+        event_repr = f'{self.author}: {self.title}'
         if self.start_date and self.end_date:
             event_repr += f'({self.start_date} - {self.end_date})'
 
         return event_repr
+
+    def __str__(self):
+        return self.fullname

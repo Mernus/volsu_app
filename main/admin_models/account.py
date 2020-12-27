@@ -11,4 +11,4 @@ class AccountAdmin(admin.ModelAdmin):
         ('level', admin.ChoicesFieldListFilter),
     )
     list_per_page = 20
-    search_fields = ('shortname', 'level')
+    search_fields = ('name', 'shortname', 'level')
