@@ -4,12 +4,11 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'e_jf=--lrwkzi26a-0ica1&onw$5exfve-v_+am@-$y=s_#s80'
+SECRET_KEY = os.getenv('DJANGO_SECRET')
 
 DEBUG = bool(int(os.getenv('DJANGO_DEBUG', 0)))
 
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
-
 
 INSTALLED_APPS = [
     'admin_interface',
@@ -32,8 +31,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'DEFAULT_PAGINATION_CLASS'      : 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE'                     : 10
 }
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
@@ -53,11 +52,11 @@ ROOT_URLCONF = 'event_manager.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'BACKEND' : 'django.template.backends.django.DjangoTemplates',
+        'DIRS'    : [BASE_DIR / 'templates']
         ,
         'APP_DIRS': True,
-        'OPTIONS': {
+        'OPTIONS' : {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -72,12 +71,12 @@ WSGI_APPLICATION = 'event_manager.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_DATABASE', 'event_manager'),
+        'ENGINE'  : 'django.db.backends.postgresql',
+        'NAME'    : os.getenv('DB_DATABASE', 'event_manager'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'em1111'),
-        'USER': os.getenv('DB_USER', 'emanager'),
-        'HOST': os.getenv('DB_HOST', 'emanager_db'),
-        'PORT': int(os.getenv('DB_PORT', 5432)),
+        'USER'    : os.getenv('DB_USER', 'emanager'),
+        'HOST'    : os.getenv('DB_HOST', 'emanager_db'),
+        'PORT'    : int(os.getenv('DB_PORT', 5432)),
     }
 }
 
