@@ -28,14 +28,8 @@ services:
       context: .
       dockerfile: runserv/Dockerfile
     restart: always
-    environment:
-      - DJANGO_DEBUG=1
-      - DJANGO_ALLOWED_HOSTS=emanager.lvh.me
-      - DB_DATABASE=event_manager
-      - DB_HOST=emanager_db
-      - DB_PORT=5432
-      - DB_PASSWORD=em1111
-      - DB_USER=emanager
+    env_file:
+      - .env
     volumes:
       - .:/source
     ports:

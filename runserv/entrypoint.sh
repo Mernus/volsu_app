@@ -1,15 +1,15 @@
 #!/bin/bash
 set -e
 
+BOLD="\033[1m"
+NC="\033[0m"
+
 if [ "$1" == "uwsgi" ]; then
-    echo "Running migrations"
-    python manage.py makemigrations --noinput
-    python manage.py migrate --noinput
-    echo "Running collectstatic"
-    python manage.py collectstatic --noinput
-    echo "Set admin interface"
+    printf "${BOLD} [ENTRYPOINT | INFO] Initialize project. ${NC}"
+    python manage.py initialize
+    printf "${BOLD} [ENTRYPOINT | INFO] Set admin interface. ${NC}"
     python manage.py loaddata admin_interface_theme_bootstrap.json
-    echo "Starting project"
+    printf "${BOLD} [ENTRYPOINT | INFO] Starting project. ${NC}"
     uwsgi runserv/uwsgi.ini
     exit
 fi
