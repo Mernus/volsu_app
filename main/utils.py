@@ -6,7 +6,7 @@ STRING_TEMPLATES = {
 }
 
 
-def colored_print(uncolored_string: str, *, string_code: str, path: str = None, exit: bool = False) -> None:
+def colored_print(uncolored_string: str, *, string_code: str, path: str = None, critical: bool = False) -> None:
     """
     Modified print function with some color and string code.
 
@@ -14,7 +14,7 @@ def colored_print(uncolored_string: str, *, string_code: str, path: str = None, 
         uncolored_string (string): String without color and string code
         string_code (string): String codes from STRING_TEMPLATES
         path (string optional): Path or filename to indicate string location
-        exit (bool optional): If True raise SystemExit
+        critical (bool optional): If True raise SystemExit
 
     """
 
@@ -22,7 +22,7 @@ def colored_print(uncolored_string: str, *, string_code: str, path: str = None, 
     filename = path.upper() + " | " if path else ""
     string_template = template.format(filename, uncolored_string)
 
-    if exit:
+    if critical:
         raise SystemExit(string_template)
     else:
         print(string_template)

@@ -26,6 +26,8 @@ INSTALLED_APPS = [
     'timezone_field',
 ]
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',

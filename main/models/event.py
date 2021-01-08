@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from django_extensions.db.fields import AutoSlugField
 from django_extensions.db.models import TimeStampedModel
@@ -29,7 +30,9 @@ class Event(TimeStampedModel):
     title = models.CharField(verbose_name='Название события', max_length=100, unique=True)
     slug = AutoSlugField(populate_from=['author', 'title'])
     tags = models.ManyToManyField('Tag', blank=True, verbose_name='Теги события')
-    author = models.ForeignKey('Account', blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Организатор события')
+    author = models.ForeignKey('Account', blank=True, null=True,
+                               on_delete=models.SET_NULL,
+                               verbose_name='Организатор события')
     participants = models.ManyToManyField('Account', blank=True,
                                           verbose_name='Участники события',
                                           related_name='participants')
@@ -41,6 +44,21 @@ class Event(TimeStampedModel):
     objects = models.Manager()
     public_objects = QueryManager(author__isnull=False, status__in=PUBLIC_EVENT_STATUSES)
     changes = FieldTracker()
+    
+    def save(self, **kwargs):
+        """
+        Overrides base save method to set event status depending on start and end dates.
+
+        """
+
+        now = timezone.now()
+        if self.end_date:
+            if self.start_date and self.start_date < now < self.end_date:
+                self.status = EVENT_STATUSES.INPROCESS
+            elif self.end_date < now:
+                self.status = EVENT_STATUSES.PASSED
+
+        super(Event, self).save()
 
     @property
     def fullname(self):

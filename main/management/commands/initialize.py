@@ -17,7 +17,7 @@ class Command(BaseCommand):
             call_command("migrate", interactive=False)
         except Exception as exc:
             _print(str(exc), string_code="err", path="initialize")
-            _print("Migrations failed.", string_code="err", path="initialize", exit=True)
+            _print("Migrations failed.", string_code="err", path="initialize", critical=True)
 
         _print("Migrations passed successfully.", string_code="success", path="initialize")
         _print("Running collectstatic.", string_code="info", path="initialize")
@@ -26,7 +26,7 @@ class Command(BaseCommand):
             call_command("collectstatic", interactive=False)
         except Exception as exc:
             _print(str(exc), string_code="err", path="initialize")
-            _print("Collect static files failed.", string_code="err", path="initialize", exit=True)
+            _print("Collect static files failed.", string_code="err", path="initialize", critical=True)
 
         _print("Static files were collect successfully.", string_code="success", path="initialize")
 

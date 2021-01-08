@@ -6,8 +6,9 @@ from django_extensions.db.models import TimeStampedModel
 from .event import Event
 
 
+# TODO озаботиться кешированием(обновлять в случае добавления/удаления тегов к какому-то евенту)
 def get_popular_tags():
-    return Tag.objects.order_by('events_num')
+    return Tag.objects.order_by('events_num')[:10]
 
 
 class Tag(TimeStampedModel):
@@ -23,6 +24,7 @@ class Tag(TimeStampedModel):
     def __str__(self):
         return self.title
 
+    # TODO добавить кеширование результатов(обновлять в случае добавления/удаления тега к ивенту)
     @property
     def events_num(self):
-        return Event.objects.filter(tags=self)
+        return Event.objects.filter(tags=self).count()
