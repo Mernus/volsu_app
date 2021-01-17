@@ -10,6 +10,7 @@ from model_utils.managers import QueryManager
 
 NONPUBLIC_EVENT_STATUSES = Choices(
     (0, 'RECONCILIATION', 'На этапе согласования'),
+    (-1, 'REJECTED', 'Отменено'),
 )
 
 PUBLIC_EVENT_STATUSES = Choices(
@@ -30,10 +31,10 @@ class Event(TimeStampedModel):
     title = models.CharField(verbose_name='Название события', max_length=100, unique=True)
     slug = AutoSlugField(populate_from=['author', 'title'])
     tags = models.ManyToManyField('Tag', blank=True, verbose_name='Теги события')
-    author = models.ForeignKey('Account', blank=True, null=True,
+    author = models.ForeignKey('User', blank=True, null=True,
                                on_delete=models.SET_NULL,
                                verbose_name='Организатор события')
-    participants = models.ManyToManyField('Account', blank=True,
+    participants = models.ManyToManyField('User', blank=True,
                                           verbose_name='Участники события',
                                           related_name='participants')
     start_date = models.DateTimeField(verbose_name='Время и дата начала события', null=True, blank=True)

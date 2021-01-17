@@ -38,12 +38,34 @@ class EventAdminForm(forms.ModelForm):
 class EventAdmin(admin.ModelAdmin):
     form = EventAdminForm
 
-    def author_fullname(self, obj):
-        return obj.author.fullname if obj.author else "---"
+    def author_fullname(self, obj: Event) -> str:
+        """
+        Returns event author if it exists.
+
+        Args:
+            obj (Event): Some event object
+
+        Returns:
+            string: Event author full name if exists otherwise returns a blank string
+
+        """
+        return obj.author.get_full_name() if obj.author else "---"
+
     author_fullname.admin_order_field = 'author__fullname'
 
     def event_tags(self, obj):
+        """
+        Returns list of event tags descending ordered by number of entries this tag in events.
+
+        Args:
+            obj (Event): Some event object
+
+        Returns:
+            list: Ordered event tags
+
+        """
         return sorted(obj.tags.all(), key=lambda tag: tag.events_num, reverse=True)
+
     event_tags.admin_order_field = 'event__tags'
 
     date_hierarchy = 'start_date'

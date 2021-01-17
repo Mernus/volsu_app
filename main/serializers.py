@@ -1,12 +1,13 @@
 from rest_framework import serializers
 
-from .models import Account, Tag, Event
+from .models import User, Tag, Event
 
 
-class AccountSerializer(serializers.ModelSerializer):
+# TODO переработать после обновы
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Account
-        fields = ["name", "shortname", "timezone", "email", "level"]
+        model = User
+        fields = ["name", "fullname", "timezone", "email", "level"]
 
 
 class TagSerializer(serializers.ModelSerializer):

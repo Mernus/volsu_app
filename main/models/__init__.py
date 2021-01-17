@@ -1,3 +1,3 @@
-from .account import *
+from .user import *
 from .event import *
 from .tag import *
