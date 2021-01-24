@@ -3,7 +3,8 @@ from django.contrib.postgres.fields import CICharField
 from colorfield.fields import ColorField
 from django_extensions.db.models import TimeStampedModel
 
-from .event import Event
+from main.models import Event
+from main.validators import TitleValidator
 
 
 # TODO озаботиться кешированием(обновлять в случае добавления/удаления тегов к какому-то евенту)
@@ -17,7 +18,10 @@ class Tag(TimeStampedModel):
         verbose_name_plural = 'Теги'
         ordering = ['title']
 
-    title = CICharField(verbose_name='Тег', max_length=50, unique=True)
+    title_validator = TitleValidator()
+
+    title = CICharField(verbose_name='Тег', validators=[title_validator],
+                        max_length=50, unique=True)
     back_color = ColorField(verbose_name='Цвет бэкграунда тега', default='#FFFFFF')
     title_color = ColorField(verbose_name='Цвет тега', default='#000000')
 

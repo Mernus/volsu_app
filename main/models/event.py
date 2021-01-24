@@ -3,9 +3,10 @@ from django.utils import timezone
 
 from django_extensions.db.fields import AutoSlugField
 from django_extensions.db.models import TimeStampedModel
-
 from model_utils import Choices, FieldTracker
 from model_utils.managers import QueryManager
+
+from main.validators import TitleValidator
 
 
 NONPUBLIC_EVENT_STATUSES = Choices(
@@ -28,7 +29,12 @@ class Event(TimeStampedModel):
         verbose_name_plural = 'События'
         ordering = ['start_date']
 
-    title = models.CharField(verbose_name='Название события', max_length=100, unique=True)
+    title_validator = TitleValidator()
+
+    title = models.CharField(verbose_name='Название события', validators=[title_validator],
+                             max_length=100, unique=True)
+    description = models.TextField(verbose_name='Описание события', max_length=450,
+                                   blank=True, null=True)
     slug = AutoSlugField(populate_from=['author', 'title'])
     tags = models.ManyToManyField('Tag', blank=True, verbose_name='Теги события')
     author = models.ForeignKey('User', blank=True, null=True,

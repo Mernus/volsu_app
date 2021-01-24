@@ -10,7 +10,7 @@ from django_extensions.db.fields import CreationDateTimeField, ModificationDateT
 from model_utils import Choices
 from timezone_field import TimeZoneField
 
-from main.validators import FullnameValidator
+from main.validators import FullnameValidator, TitleValidator
 
 USER_LEVELS = Choices(
     (0, 'USER', 'Пользователь'),
@@ -27,14 +27,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         ordering = ['-level', 'username']
 
     username_validator = UnicodeUsernameValidator()
-    fullname_validator = FullnameValidator()
+    org_validator, fullname_validator = TitleValidator(), FullnameValidator()
 
     username = models.CharField(verbose_name='Имя пользователя', validators=[username_validator],
                                 max_length=30, unique=True)
     fullname = models.CharField(verbose_name='ФИО пользователя', validators=[fullname_validator], max_length=30,
                                 unique=True, null=True, blank=True)
     organization = models.CharField(verbose_name='Организация', max_length=120,
-                                    null=True, blank=True)
+                                    validators=[org_validator], null=True, blank=True)
     added = CreationDateTimeField(verbose_name='Дата создания')
     updated = ModificationDateTimeField(verbose_name='Дата последнего изменения')
     timezone = TimeZoneField(default='Europe/Moscow', verbose_name="Часовой пояс")
