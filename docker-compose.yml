@@ -33,7 +33,7 @@ services:
     volumes:
       - .:/source
     ports:
-      - "8000:8080"
+      - "8000:8000"
     depends_on:
       - emanager_db
       - redis
