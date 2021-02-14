@@ -3,11 +3,21 @@ from rest_framework import serializers
 from .models import User, Tag, Event
 
 
-# TODO переработать после обновы
+# TODO скорее всего нужно будет доработать после реализации вьюх
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["name", "fullname", "timezone", "email", "level"]
+        fields = [
+            "username",
+            "fullname",
+            "organization",
+            "timezone",
+            "email",
+            "level",
+        ]
+        read_only_fields = [
+            "level",
+        ]
 
 
 class TagSerializer(serializers.ModelSerializer):
