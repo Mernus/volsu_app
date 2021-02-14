@@ -9,18 +9,27 @@ from model_utils.managers import QueryManager
 from main.validators import TitleValidator
 
 
+# Statuses for Events that are not represented for default users, only for author of the Event and Moderators, Admins
 NONPUBLIC_EVENT_STATUSES = Choices(
     (0, 'RECONCILIATION', 'На этапе согласования'),
     (-1, 'REJECTED', 'Отменено'),
 )
 
+# Statuses for Events that are represented for all users
 PUBLIC_EVENT_STATUSES = Choices(
     (1, 'WAITING', 'Ожидается начало'),
     (2, 'INPROCESS', 'В процессе проведения'),
     (3, 'PASSED', 'Прошло'),
 )
 
+# Statuses for all events
 EVENT_STATUSES = NONPUBLIC_EVENT_STATUSES + PUBLIC_EVENT_STATUSES
+
+# Fields which changes tracked by special field "changes"
+TRACKED_FIELDS = [
+    'title', 'description', 'author',
+    'start_date', 'end_date', 'status'
+]
 
 
 class Event(TimeStampedModel):
@@ -50,8 +59,8 @@ class Event(TimeStampedModel):
                                  default=EVENT_STATUSES.RECONCILIATION)
     objects = models.Manager()
     public_objects = QueryManager(author__isnull=False, status__in=PUBLIC_EVENT_STATUSES)
-    changes = FieldTracker()
-    
+    changes = FieldTracker(fields=TRACKED_FIELDS)  # Track changes in some fields
+
     def save(self, **kwargs):
         """
         Overrides base save method to set event status depending on start and end dates.
@@ -59,17 +68,29 @@ class Event(TimeStampedModel):
         """
 
         now = timezone.now()
-        if self.end_date:
-            if self.start_date and self.start_date < now < self.end_date:
-                self.status = EVENT_STATUSES.INPROCESS
-            elif self.end_date < now:
+        if not self.start_date and not self.end_date:
+            self.status = EVENT_STATUSES.RECONCILIATION
+
+        elif self.end_date:
+            if self.end_date < now:
                 self.status = EVENT_STATUSES.PASSED
+            elif self.start_date and self.start_date < now < self.end_date:
+                self.status = EVENT_STATUSES.INPROCESS
 
         super(Event, self).save()
 
     @property
     def fullname(self):
-        event_repr = f'{self.author}: {self.title}'
+        """
+        Represent event as string.
+
+        Returns:
+            str: Event representation as string
+
+        """
+        author = f": {self.author}" if self.author else ""
+        event_repr = f'{self.title}{author}'
+
         if self.start_date and self.end_date:
             event_repr += f'({self.start_date} - {self.end_date})'
 

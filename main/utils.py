@@ -24,5 +24,20 @@ def colored_print(uncolored_string: str, *, string_code: str, path: str = None, 
 
     if critical:
         raise SystemExit(string_template)
-    else:
-        print(string_template)
+
+    print(string_template)
+
+
+def clear_cached_properties(instance, properties: set):
+    """
+    Clear cache for cached properties of instance.
+
+    Args:
+        instance (): Instance that have cached properties
+        properties (set): Set of cached properties
+
+    """
+    cached_properties = properties & instance.__dict__.keys()
+
+    for prop in cached_properties:
+        del instance.__dict__[prop]

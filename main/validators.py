@@ -1,15 +1,20 @@
 import unicodedata
 
 from django.core import validators
+from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
 from django.utils.encoding import force_str
 
 
-from django.core.exceptions import ValidationError
-
-
 @deconstructible
 class FullnameValidator(validators.RegexValidator):
+    """
+    Validator for person fullname.
+
+    Note:
+        Pattern for person fullname: "^[А-ЯA-Za-zа-я- ]+\Z"
+
+    """
     regex = r'^[А-ЯA-Za-zа-я- ]+\Z'
     message = (
         'Введите валидное ФИО. Это поле может содержать только русские символы, - и пробельные символы '
@@ -19,6 +24,15 @@ class FullnameValidator(validators.RegexValidator):
 
 @deconstructible
 class BaseFieldValidator:
+    """
+    Validator that does not allow control characters and characters provided in blacklist_str field.
+
+    Attributes:
+        message (str): Message if validation fails
+        code (str): Validation error code
+        blacklist_str (str or None): String with characters that cannot be provided
+
+    """
     message = "В этом поле не разрешены управляющие символы и символы из параметра blacklist"
     code = "no_control_characters_with_blacklist"
     blacklist_str = None
@@ -44,14 +58,21 @@ class BaseFieldValidator:
 
     def __eq__(self, other):
         return (
-            isinstance(other, BaseFieldValidator) and
-            (self.blacklist_str == other.blacklist_str) and
-            (self.message == other.message) and
-            (self.code == other.code)
+                isinstance(other, BaseFieldValidator) and
+                (self.blacklist_str == other.blacklist_str) and
+                (self.message == other.message) and
+                (self.code == other.code)
         )
 
 
 @deconstructible
 class TitleValidator(BaseFieldValidator):
+    """
+    Validator for title.
+
+    Note:
+        Blacklist characters: [!\"'$^;?*,<>]
+
+    """
     message = "В этом поле не разрешены управляющие символы, а также символы {!\\\"'$^;?*,<>}"
     blacklist_str = r"!\"'$^;?*,<>"
