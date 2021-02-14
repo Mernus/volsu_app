@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DefaultAdmin
 
 
-# TODO переработать после обновы
 class UserAdmin(DefaultAdmin):
     date_hierarchy = 'added'
     readonly_fields = ('added', 'updated')
