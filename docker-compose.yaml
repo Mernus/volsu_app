@@ -8,8 +8,8 @@ services:
       - ./event_manager/media:/source/event_manager/media
       - ./main/static:/source/main/static
     ports:
-      - "81:80"
-      - "443:443"
+      - 81:80
+      - 443:443
     depends_on:
       - emanager_app
 
@@ -33,7 +33,7 @@ services:
     volumes:
       - .:/source
     ports:
-      - "8000:8000"
+      - 8000:8000
     depends_on:
       - emanager_db
       - redis
@@ -41,3 +41,5 @@ services:
   redis:
     image: redis:alpine
     container_name: redis
+    ports:
+      - 6379:6379
