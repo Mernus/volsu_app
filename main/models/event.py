@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+from django_cryptography.fields import encrypt
 from django_extensions.db.fields import AutoSlugField
 from django_extensions.db.models import TimeStampedModel
 from model_utils import Choices, FieldTracker
@@ -42,8 +43,8 @@ class Event(TimeStampedModel):
 
     title = models.CharField(verbose_name='Название события', validators=[title_validator],
                              max_length=100, unique=True)
-    description = models.TextField(verbose_name='Описание события', max_length=450,
-                                   blank=True, null=True)
+    description = encrypt(models.TextField(verbose_name='Описание события', max_length=450,
+                                           blank=True, null=True))
     slug = AutoSlugField(populate_from=['author', 'title'])
     tags = models.ManyToManyField('Tag', blank=True, verbose_name='Теги события')
     author = models.ForeignKey('User', blank=True, null=True,
@@ -64,7 +65,6 @@ class Event(TimeStampedModel):
     def save(self, **kwargs):
         """
         Overrides base save method to set event status depending on start and end dates.
-
         """
 
         now = timezone.now()
@@ -86,7 +86,6 @@ class Event(TimeStampedModel):
 
         Returns:
             str: Event representation as string
-
         """
         author = f": {self.author}" if self.author else ""
         event_repr = f'{self.title}{author}'

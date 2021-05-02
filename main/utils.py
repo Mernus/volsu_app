@@ -1,43 +1,73 @@
-STRING_TEMPLATES = {
-    "success": "\033[32m [{}SUCCESS]: {} \033[0m",
-    "info": "\033[1m [{}INFO]: {} \033[0m",
-    "warn": "\033[33m [{}WARNING]: {}\033[0m",
-    "err": "\033[31m [{}ERROR]: {}\033[0m"
-}
+from django.contrib.auth import authenticate
+from django.core.cache import cache
+
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework_simplejwt.tokens import RefreshToken, UntypedToken
 
 
-def colored_print(uncolored_string: str, *, string_code: str, path: str = None, critical: bool = False) -> None:
+# TODO docs
+def verify_token(attrs):
+    UntypedToken(attrs['token'])
+
+    return {}
+
+
+# TODO docs
+def obtain_token(attrs):
+    authenticate_kwargs = {
+        'username': attrs['username'],
+        'password': attrs['password'],
+    }
+
+    user = authenticate(**authenticate_kwargs)
+
+    if user is None or not user.is_active:
+        raise AuthenticationFailed('No active account with provided credentials')
+
+    refresh = RefreshToken.for_user(user)
+    data = {'refresh': str(refresh), 'access': str(refresh.access_token)}
+    return data
+
+
+# TODO docs
+def refresh_token(attrs):
+    refresh = RefreshToken(attrs['refresh'])
+
+    data = {'access': str(refresh.access_token)}
+    return data
+
+
+def get_tokens(username: str, password: str) -> dict[str, str]:
     """
-    Modified print function with some color and string code.
+    Returns tokens that will be passed to this serializer
 
     Args:
-        uncolored_string (string): String without color and string code
-        string_code (string): String codes from STRING_TEMPLATES
-        path (string optional): Path or filename to indicate string location
-        critical (bool optional): If True raise SystemExit
+        username (str): User username
+        password (str): User password
+
+    Returns:
+        {'access_token': <sometoken>} if no need to generate new token,
+        data(dict) otherwise
 
     """
+    access = cache.get('jwt_access')
+    data = {}
 
-    template = STRING_TEMPLATES.get(string_code, "")
-    filename = path.upper() + " | " if path else ""
-    string_template = template.format(filename, uncolored_string)
+    if access is None:
+        data = obtain_token({'username': username, 'password': password})
+    else:
+        try:
+            verify_token({'token': access})
+        except TokenError:
+            refresh = cache.get('jwt_refresh')
+            try:
+                verify_token({'token': refresh})
 
-    if critical:
-        raise SystemExit(string_template)
+                data = refresh_token({'refresh': refresh})
+            except TokenError:
+                data = obtain_token({'username': username, 'password': password})
+        if not data:
+            data = {'access': access}
 
-    print(string_template)
-
-
-def clear_cached_properties(instance, properties: set):
-    """
-    Clear cache for cached properties of instance.
-
-    Args:
-        instance (): Instance that have cached properties
-        properties (set): Set of cached properties
-
-    """
-    cached_properties = properties & instance.__dict__.keys()
-
-    for prop in cached_properties:
-        del instance.__dict__[prop]
+    return data
