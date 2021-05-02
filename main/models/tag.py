@@ -7,7 +7,7 @@ from colorfield.fields import ColorField
 from django_extensions.db.models import TimeStampedModel
 
 from main.models import Event
-from main.utils import clear_cached_properties
+from event_manager.utils import clear_cached_properties
 from main.validators import TitleValidator
 
 
@@ -40,7 +40,6 @@ class Tag(TimeStampedModel):
 
         Returns:
             (list): list of 10 popular tags
-
         """
         return sorted(Tag.objects.all(), key=lambda tag: tag.events_num, reverse=True)[:10]
 
@@ -51,7 +50,6 @@ class Tag(TimeStampedModel):
 
         Returns:
             (int): num of events with this tag
-
         """
         return Event.objects.filter(tags=self).count()
 
@@ -65,9 +63,6 @@ def clear_tag_cache(sender, instance: Event, **kwargs: dict):
         sender (ModelBase): Event tags class
         instance (Event): Event instance with changed tags field
         **kwargs (dict): Provided info as signal, action and other
-
-    Returns:
-
     """
 
     # Clear cached properties that had this tag
