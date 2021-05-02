@@ -3,7 +3,7 @@ import os
 from django.contrib.auth import get_user_model
 from django.core.management import call_command, BaseCommand
 
-from main.utils import colored_print as _print
+from event_manager.utils import colored_print as _print
 
 
 class Command(BaseCommand):
