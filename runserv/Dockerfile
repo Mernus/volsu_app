@@ -11,7 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 RUN touch /reload
 
-COPY runserv/entrypoint.sh /usr/local/bin/
+COPY /source/runserv/entrypoint.sh /usr/local/bin/
 RUN ln -s /usr/local/bin/entrypoint.sh /
 
 EXPOSE 8000
