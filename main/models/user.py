@@ -1,10 +1,13 @@
-from django.contrib.auth import password_validation
+import re
+import uuid
+
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
-from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
+from django.core.validators import MinLengthValidator
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from django_cryptography.fields import encrypt
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
@@ -25,6 +28,13 @@ USER_LEVELS = Choices(
 )
 
 
+def profile_upload(instance, filename):
+    match = re.search(r"\.[^.\\/:*?\"<>|\r\n]+$", filename)
+    extension = match.group(0)
+    result_filename = str(uuid.uuid4())
+    return f"users/{instance.id}/profile/{result_filename}{extension}"
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'Пользователь'
@@ -34,16 +44,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     username_validator = UnicodeUsernameValidator()
     org_validator, fullname_validator = TitleValidator(), FullnameValidator()
 
-    username = models.CharField(verbose_name='Имя пользователя', validators=[username_validator],
-                                max_length=80, unique=True)
+    username = models.CharField(verbose_name='Имя пользователя', validators=[username_validator, MinLengthValidator(3)],
+                                max_length=25, unique=True)
+    password = models.CharField(_('password'), max_length=128, validators=[MinLengthValidator(8)])
     fullname = encrypt(models.CharField(verbose_name='ФИО пользователя', validators=[fullname_validator],
-                                        max_length=30, unique=True, null=True, blank=True))
+                                        max_length=100, unique=True, null=True, default=None))
     organization = encrypt(models.CharField(verbose_name='Организация', max_length=120,
-                                            validators=[org_validator], null=True, blank=True))
+                                            validators=[org_validator], null=True, default=None))
     added = CreationDateTimeField(verbose_name='Дата создания')
     updated = ModificationDateTimeField(verbose_name='Дата последнего изменения')
     timezone = TimeZoneField(default='Europe/Moscow', verbose_name="Часовой пояс")
-    email = encrypt(models.EmailField(verbose_name='Почта пользователя', unique=True))
+    email = models.EmailField(verbose_name='Почта пользователя', unique=True)
     level = models.IntegerField(verbose_name='Уровень прав пользователя',
                                 choices=USER_LEVELS,
                                 default=USER_LEVELS.USER)
@@ -51,6 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField('Активен',
                                     default=True,
                                     help_text='Активен ли пользователь. Используется вместо удаления объекта.')
+    profile_img = models.ImageField(upload_to=profile_upload, blank=True, verbose_name='Картинка профиля')
 
     objects = UserManager()
 
@@ -58,18 +70,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
 
-    # TODO docs
-    @property
-    def token(self, password=None):
-        return self.__generate_token(password)
+    def get_token(self, password: str, request: 'Request') -> str:
+        """
+        Returns user JWT token
 
-    # TODO docs
-    def save(self, *args, **kwargs):
-        super(AbstractBaseUser, self).save(*args, **kwargs)
-        if self._password is not None:
-            self.__generate_token(self._password)
-            password_validation.password_changed(self._password, self)
-            self._password = None
+        Args:
+            request (Request): passed request
+            password (str): user password
+
+        Returns:
+            str: User JWT access token
+
+        """
+        return self.__generate_token(password, request)
 
     # TODO docs
     def clean(self):
@@ -90,27 +103,30 @@ class User(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
     def get_full_name(self):
-        return f'{self.username}: {self.level}'
+        fullname = self.username
+        if self.organization:
+            fullname += f"({self.organization})"
+
+        return fullname
 
     def get_short_name(self):
         return self.username
 
     # TODO docs
-    def __generate_token(self, raw_password: str) -> str:
+    def __generate_token(self, raw_password: str, request: 'Request') -> str:
         username, email = self.username, self.email
         try:
-            data = get_tokens(username, raw_password)
+            data = get_tokens(self, raw_password, request)
         except (AuthenticationFailed, TokenError, TokenBackendError) as e:
             raise TokenAuthError(username, email, str(e))
 
         access_token = data['access']
-        cache_data = {'jwt_access': access_token}
+        request.session['jwt_access'] = access_token
 
         refresh_token = data.get('refresh')
         if refresh_token is not None:
-            cache_data['jwt_refresh'] = refresh_token
+            request.session['jwt_refresh'] = refresh_token
 
-        cache.set_many(cache_data)
         return access_token
 
     def __str__(self):

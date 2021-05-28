@@ -1,5 +1,10 @@
+from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
 from django.utils import timezone
+from django.utils.functional import cached_property
 
 from django_cryptography.fields import encrypt
 from django_extensions.db.fields import AutoSlugField
@@ -7,20 +12,25 @@ from django_extensions.db.models import TimeStampedModel
 from model_utils import Choices, FieldTracker
 from model_utils.managers import QueryManager
 
+from event_manager.utils import clear_cached_properties
+from main.utils import render_tags
 from main.validators import TitleValidator
 
+EVENT_CACHED_PROPERTIES = {
+    "get_popular_tags", "get_tags_html"
+}
 
 # Statuses for Events that are not represented for default users, only for author of the Event and Moderators, Admins
 NONPUBLIC_EVENT_STATUSES = Choices(
-    (0, 'RECONCILIATION', 'На этапе согласования'),
-    (-1, 'REJECTED', 'Отменено'),
+    (0, 'RECONCILIATION', 'Reconciliation'),
+    (-1, 'REJECTED', 'Rejected'),
 )
 
 # Statuses for Events that are represented for all users
 PUBLIC_EVENT_STATUSES = Choices(
-    (1, 'WAITING', 'Ожидается начало'),
-    (2, 'INPROCESS', 'В процессе проведения'),
-    (3, 'PASSED', 'Прошло'),
+    (1, 'WAITING', 'Waiting for start'),
+    (2, 'INPROCESS', 'In process'),
+    (3, 'PASSED', 'Already passed'),
 )
 
 # Statuses for all events
@@ -43,8 +53,9 @@ class Event(TimeStampedModel):
 
     title = models.CharField(verbose_name='Название события', validators=[title_validator],
                              max_length=100, unique=True)
-    description = encrypt(models.TextField(verbose_name='Описание события', max_length=450,
-                                           blank=True, null=True))
+    description = encrypt(models.TextField(verbose_name='Описание события', max_length=450, null=True, default=None))
+    location = encrypt(models.CharField(verbose_name='Местоположение', max_length=300, null=True, default=None))
+    website = models.CharField(verbose_name='Официальный вебсайт', max_length=150, null=True)
     slug = AutoSlugField(populate_from=['author', 'title'])
     tags = models.ManyToManyField('Tag', blank=True, verbose_name='Теги события')
     author = models.ForeignKey('User', blank=True, null=True,
@@ -58,9 +69,36 @@ class Event(TimeStampedModel):
     status = models.IntegerField(verbose_name='Статус события',
                                  choices=EVENT_STATUSES,
                                  default=EVENT_STATUSES.RECONCILIATION)
+    event_files = ArrayField(models.URLField(blank=True, verbose_name='Картинки события'), size=10)
+
     objects = models.Manager()
-    public_objects = QueryManager(author__isnull=False, status__in=PUBLIC_EVENT_STATUSES)
+    public_objects = QueryManager(author__isnull=False, status__in=[1, 2, 3])
     changes = FieldTracker(fields=TRACKED_FIELDS)  # Track changes in some fields
+
+    def first_participants(self):
+        return self.participants.all()[:4].values_list('profile_img', flat=True)
+
+    @cached_property
+    def get_popular_tags_html(self) -> list[str]:
+        """
+        Cached class property that calculates 5 most popular Tags form this event.
+
+        Returns:
+            (list): list of 5 popular tags
+        """
+        sorted_tags = sorted(self.tags.all(), key=lambda some_tag: some_tag.events_num, reverse=True)[:5]
+        return render_tags(sorted_tags)
+
+    @cached_property
+    def get_tags_html(self) -> list[str]:
+        """
+        Cached class property that calculates most popular Tags form this event.
+
+        Returns:
+            (list): list of tags
+        """
+        sorted_tags = sorted(self.tags.all(), key=lambda some_tag: some_tag.events_num, reverse=True)
+        return render_tags(sorted_tags)
 
     def save(self, **kwargs):
         """
@@ -97,3 +135,34 @@ class Event(TimeStampedModel):
 
     def __str__(self):
         return self.fullname
+
+
+@receiver(m2m_changed, sender=Event.tags.through)
+def clear_event_cache(sender, instance: Event, **kwargs: dict):
+    """
+    Clear Events cached property, when any Tag added or removed from any Event.
+
+    Args:
+        sender (ModelBase): Event tags class
+        instance (Event): Event instance with changed tags field
+        **kwargs (dict): Provided info as signal, action and other
+    """
+
+    # Clear cached properties that had this tag
+    clear_cached_properties(instance, EVENT_CACHED_PROPERTIES)
+
+
+@receiver(m2m_changed, sender=Event.tags.through)
+def check_tags_num(sender, instance: Event, **kwargs: dict):
+    """
+    Checks that tags number for events is lowered than 10.
+
+    Args:
+        sender (ModelBase): Event tags class
+        instance (Event): Event instance with changed tags field
+        **kwargs (dict): Provided info as signal, action and other
+    """
+
+    # Clear cached properties that had this tag
+    if instance.tags.count() > 10:
+        raise ValidationError("You can't assign more than ten Tags to Event")

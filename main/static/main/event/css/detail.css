@@ -1,0 +1,55 @@
+#container {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    height: 95%;
+    position: absolute;
+    left: 12%;
+}
+
+.no-event {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15%;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.nav-link {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.tab-pane {
+    font-size: 1.15rem;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.carousel, .carousel .carousel-item {
+    height: 24rem;
+    width: 48rem;
+}
+
+.carousel-item img {
+    height: 24rem;
+    width: 48rem;
+}
+
+.tab-content > .active {
+    display: flex !important;
+    justify-content: center;
+}
+
+#currentTags {
+    width: 550px;
+}
+
+.col {
+    text-align: center;
+}

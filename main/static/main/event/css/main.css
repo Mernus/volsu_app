@@ -1,0 +1,271 @@
+body {
+    background: #eee
+}
+
+.filter {
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px
+}
+
+.profiles img {
+    margin-right: -6px
+}
+
+.col-md-4 {
+    margin-top: 26px
+}
+
+#container {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    max-width: calc(100% - 4rem);
+    height: 95%;
+}
+
+.ml-3 {
+    margin-left: 1rem;
+}
+
+.mr-2 {
+    margin-right: 0.5rem;
+}
+
+.ml-2 {
+    margin-left: 0.5rem;
+}
+
+.credits > a > img {
+    width: 36rem;
+    height: 18rem;
+}
+
+.stats {
+    font-size: 0.8rem;
+}
+
+.no-events {
+    height: 100%;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 1880px) {
+    .credits > a > img {
+        width: 34rem;
+        height: 17rem;
+    }
+}
+
+@media (max-width: 1800px) {
+    .credits > a > img {
+        width: 32rem;
+        height: 16rem;
+    }
+}
+
+@media (max-width: 1650px) {
+    .credits > a > img {
+        width: 30rem;
+        height: 15rem;
+    }
+
+    .h5, h5 {
+        font-size: 1.2rem;
+    }
+
+    .d-block {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 1540px) {
+    .credits > a > img {
+        width: 28rem;
+        height: 14rem;
+    }
+}
+
+@media (max-width: 1450px) {
+    .credits > a > img {
+        width: 26rem;
+        height: 13rem;
+    }
+
+    .h5, h5 {
+        font-size: 1.2rem;
+    }
+
+    .d-block {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 1380px) {
+    .credits > a > img {
+        width: 24rem;
+        height: 12rem;
+    }
+}
+
+@media (max-width: 1350px) {
+    .h5, h5 {
+        font-size: 1.15rem;
+    }
+
+    .d-block {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 1300px) {
+    .credits > a > img {
+        width: 22rem;
+        height: 11rem;
+    }
+}
+
+@media (max-width: 1240px) {
+    .credits > a > img {
+        width: 20rem;
+        height: 10rem;
+    }
+}
+
+@media (max-width: 1150px) {
+    .col {
+        flex: 0 0 50% !important;
+    }
+
+    .credits > a > img {
+        width: 28rem;
+        height: 14rem;
+    }
+
+    .stats {
+        font-size: 0.85rem;
+    }
+
+    .h5, h5 {
+        font-size: 1.1rem;
+    }
+
+    .d-block {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 1070px) {
+    .credits > a > img {
+        width: 26rem;
+        height: 13rem;
+    }
+
+    .stats {
+        font-size: 0.8rem;
+    }
+
+    .h5, h5 {
+        font-size: 1.05rem;
+    }
+
+    .d-block {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 980px) {
+    .credits > a > img {
+        width: 24rem;
+        height: 12rem;
+    }
+}
+
+@media (max-width: 840px) {
+    .credits > a > img {
+        width: 22rem;
+        height: 11rem;
+    }
+
+    .stats {
+        font-size: 0.75rem;
+    }
+
+    .h5, h5 {
+        font-size: 1rem;
+    }
+
+    .d-block {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .credits > a > img {
+        width: 32rem;
+        height: 16rem;
+    }
+
+    .col {
+        flex: 0 0 100% !important;
+    }
+
+    .stats {
+        font-size: 0.9rem;
+    }
+
+    .h5, h5 {
+        font-size: 1.05rem;
+    }
+
+    .d-block {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 700px) {
+    .credits > a > img {
+        width: 30rem;
+        height: 15rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .credits > a > img {
+        width: 28rem;
+        height: 14rem;
+    }
+
+    .stats {
+        font-size: 0.8rem;
+    }
+
+    .h5, h5 {
+        font-size: 0.95rem;
+    }
+
+    .d-block {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 550px) {
+    .credits > a > img {
+        width: 26rem;
+        height: 13rem;
+    }
+
+    .stats {
+        font-size: 0.75rem;
+    }
+
+    .h5, h5 {
+        font-size: 0.9rem;
+    }
+
+    .d-block {
+        font-size: 0.75rem;
+    }
+}

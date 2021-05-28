@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Events{% endblock %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" media="all" href={% static "main/event/css/detail.css" %}>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script type="text/javascript" src="{% static "main/event/js/detail.js" %}" defer></script>
+{% endblock %}
+
+
+{% block content %}
+    {% if slug %}
+        <div class="container-xxl mt-4 mb-4" id="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex flex-row justify-content-between align-items-center filters">
+                        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/api/events/">Events</a></li>
+                                <li class="breadcrumb-item active" aria-current="page" id="slug">{{ slug }}</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 mb-2 justify-content-md-center" style="height: 90%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-6">
+                            {% if event_files %}
+                                <img class="img-fluid rounded float-start" src="{{ event_files|first }}">
+                            {% else %}
+                                <img class="img-fluid rounded float-start"
+                                     src="{% static "main/event/images/no-image.jpg" %}">
+                            {% endif %}
+                        </div>
+                        <div class="col mt-3" style="margin-left: 2%;">
+                            <div class="header">
+                                <h5>Title:</h5>
+                                <h5>{{ title|truncatechars:35 }}</h5>
+                            </div>
+                            <div class="header mt-3">
+                                <h5>Current status:</h5>
+                                <h5>{{ status_name }}</h5>
+                            </div>
+                            <div class="header mt-3">
+                                <h5>Official website:</h5>
+                                <h5><a href="{{ website }}" target="_blank">{{ website|truncatechars:30 }}</a></h5>
+                            </div>
+                            <div class="header mt-3">
+                                <h5>Location of event:</h5>
+                                <h5>{{ location }}</h5>
+                            </div>
+                            <div class="header mt-3">
+                                <h5>Author of the event:</h5>
+                                <h5>
+                                    {{ author_name }}
+                                    {% if author_image %}
+                                        <img class="rounded-circle ml-2" src="{{ author_image }}" width="30">
+                                    {% else %}
+                                        <img class="rounded-circle ml-2" src="{% static "main/anonymous_user.png" %}"
+                                             width="30">
+                                    {% endif %}
+                                </h5>
+                            </div>
+                            <div class="header mt-3">
+                                <h5>Organization:</h5>
+                                <h5>{{ author_org|default:"no organization" }}</h5>
+                            </div>
+                            <hr class="my-3">
+                            <div class="header mt-3" style="justify-content: space-around;">
+                                <h5>Start date: {{ start_date_aware }};</h5>
+                                <h5>End date: {{ end_date_aware }};</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <ul class="nav nav-tabs nav-fill" id="tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="descr-tab" data-bs-toggle="tab"
+                                        data-bs-target="#descr" type="button" role="tab" aria-controls="descr"
+                                        aria-selected="true">Description
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="images-tab" data-bs-toggle="tab" data-bs-target="#images"
+                                        type="button" role="tab" aria-controls="images" aria-selected="false">Images
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="tags-tab" data-bs-toggle="tab" data-bs-target="#tags"
+                                        type="button" role="tab" aria-controls="tags" aria-selected="false">Tags
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="participants-tab" data-bs-toggle="tab"
+                                        data-bs-target="#participants"
+                                        type="button" role="tab" aria-controls="participants" aria-selected="false">
+                                    Participants
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="tabContent">
+                            <div class="tab-pane fade show active mt-3 overflow-auto" id="descr" role="tabpanel"
+                                 aria-labelledby="descr-tab">
+                                {% if description %}
+                                    {{ description }}
+                                {% else %}
+                                    <div class="no-event">No images added to event yet</div>
+                                {% endif %}
+                            </div>
+                            <div class="tab-pane fade mt-3" id="images" role="tabpanel" aria-labelledby="images-tab">
+                                {% if event_files %}
+                                    <div id="carouselControls" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            {% for image in event_files %}
+                                                <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                                                    <img src="{{ image }}" class="d-block">
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <button class="carousel-control-prev" type="button"
+                                                data-bs-target="#carouselControls" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button"
+                                                data-bs-target="#carouselControls" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                {% else %}
+                                    <div class="no-event">No images added to event yet</div>
+                                {% endif %}
+                            </div>
+                            <div class="tab-pane fade mt-3" id="tags" role="tabpanel" aria-labelledby="tags-tab">
+                                <div class="container">
+                                    <div class="row row-cols-2 overflow-auto" id="allTags">
+                                        <div style="flex: 0 0 100%;text-align: center;" class="mb-2">
+                                            <h5>Not added tags:</h5>
+                                        </div>
+                                        {% for badge in all_tags %}
+                                            <div class="col {% if request.user.username == author_name %}addTag{% endif %}">{{ badge|safe }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="container">
+                                    <div class="row row-cols-2 overflow-auto" id="currentTags">
+                                        <div style="flex: 0 0 100%;text-align: center;" class="mb-2">
+                                            <h5>Event tags:</h5>
+                                        </div>
+                                        {% for badge in get_tags_html %}
+                                            <div class="col {% if request.user.username == author_name %}removeTag{% endif %}">{{ badge|safe }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade mt-3" id="participants" role="tabpanel"
+                                 aria-labelledby="participants-tab">
+                                {% if participants %}
+                                    {{ description }}
+                                {% else %}
+                                    <div class="no-event">No participants registered to event yet</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="no-event">No event with this slug in base</div>
+    {% endif %}
+{% endblock %}

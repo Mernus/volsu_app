@@ -1,4 +1,7 @@
 # https://github.com/encode/django-rest-framework/issues/4632
+from event_manager.auth import serializers
+
+
 class MultiSerializerViewSetMixin(object):
     def get_serializer_class(self):
         """
@@ -21,3 +24,12 @@ class MultiSerializerViewSetMixin(object):
             return self.serializer_action_classes[self.action]
         except (KeyError, AttributeError):
             return super(MultiSerializerViewSetMixin, self).get_serializer_class()
+
+
+class DateTimeFieldWihTZ(serializers.DateTimeField):
+    """Class to make output of a DateTime Field timezone aware"""
+
+    def to_representation(self, value):
+        user_timezone = self.parent.request.user.timezone
+        value.replace(tzinfo=user_timezone)
+        return super(DateTimeFieldWihTZ, self).to_representation(value)

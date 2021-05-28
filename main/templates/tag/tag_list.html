@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Tags{% endblock %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" media="all" href={% static "main/event/css/main.css" %}>
+    <link rel="stylesheet" type="text/css" media="all" href={% static "main/tag/css/main.css" %}>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+{% endblock %}
+
+
+{% block content %}
+    {% if results %}
+        <div class="container mt-4 mb-4 overflow-auto" id="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex flex-row justify-content-between align-items-center filters">
+                        <h6>Tags in base: {{ all }}</h6>
+                        <div class="right-sort">
+                            <div class="sort-by"><span class="mr-2">Sort by:</span><a href="#">Most popular</a>
+                                <i class="fa fa-angle-down ml-1"></i>
+                                <button class="btn btn-outline-dark btn-sm ml-3 filter" type="button">
+                                    Filters&nbsp;<i class="fa fa-flask"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if request.user.is_authenticated %}
+                <div class="custom_btn">
+                    <button class="add" type="button" data-bs-toggle="modal" data-bs-target="#createEditModal">Add tag</button>
+                </div>
+            {% endif %}
+
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered border-dark mt-5">
+                    <thead class="table-dark" style="text-align: center;">
+                    <tr>
+                        <th scope="col" style="font-weight: 900;">Result</th>
+                        <th scope="col" style="font-weight: 900;">Title</th>
+                        <th scope="col" style="font-weight: 900;">Background color</th>
+                        <th scope="col" style="font-weight: 900;">Text color</th>
+                        {% if request.user.is_authenticated %}
+                            <th scope="col" style="font-weight: 900;">Edit tag</th>
+                            <th scope="col" style="font-weight: 900;">Delete tag</th>
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for tag in results %}
+                        <tr id="{{ tag.id }}">
+                            <th id="res_{{ tag.id }}" scope="row"><span class="badge py-1 mb-2"
+                                                                        style="color: {{ tag.title_color|default:"#FFFFFF" }} !important;background-color: {{ tag.back_color|default:"#000000" }}">{{ tag.title }}</span>
+                            </th>
+                            <td id="title_{{ tag.id }}">{{ tag.title }}</td>
+                            <td id="back_{{ tag.id }}"><span class="dot"
+                                                             style="background-color: {{ tag.back_color }};"></span>
+                            </td>
+                            <td id="color_{{ tag.id }}"><span class="dot"
+                                                              style="background-color: {{ tag.title_color }};"></span>
+                            </td>
+                            {% if request.user.is_authenticated %}
+                                <td>
+                                    <a data-bs-toggle="modal" data-bs-target="#createEditModal" data-tag-id="{{ tag.id }}"
+                                       class="edit">
+                                        <span class="svg-icons"><i class='bx bx-md bxs-edit'></i></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="deleteButton">
+                                        <span class="svg-icons"><i class='bx bx-md bx-trash'></i></span>
+                                    </a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if request.user.is_authenticated %}
+                <div class="modal fade" id="createEditModal" tabindex="-1" aria-labelledby="createEditModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="createEditModalLabel">Edit tag</h5>
+                                <span hidden id="tagId"></span>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="tagTitle" class="form-label">Title:</label>
+                                        <input type="text" class="form-control" id="tagTitle"
+                                               aria-describedby="titleHelp"
+                                               required>
+                                        <div id="titleHelp" class="form-text">Case-insensitive unique title with length
+                                            lower or
+                                            equal then 50
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="titleColor" class="form-label">Title color:</label>
+                                        <input type="color" class="form-control form-control-color" id="titleColor"
+                                               value="#ffffff" title="Choose your color">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="backColor" class="form-label">Background color:</label>
+                                        <input type="color" class="form-control form-control-color" id="backColor"
+                                               value="#000000" title="Choose your color">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="createUpdateButton">Update</button>
+                            </div>
+                            <script type="text/javascript" src="{% static "main/tag/js/actions.js" %}" defer></script>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript" src="{% static "main/tag/js/modal.js" %}" defer></script>
+            {% endif %}
+
+            {% if next or previous %}
+                <div class="justify-content-center text-right mt-4">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center pagination">
+                            {% if previous %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="{{ previous }}"><</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#"><</a>
+                                </li>
+                            {% endif %}
+                            {% for page in page_range %}
+                                {% ifequal page current %}
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="/api/tag/?page={{ page }}">{{ page }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="/api/tag/?page={{ page }}">{{ page }}</a>
+                                    </li>
+                                {% endifequal %}
+                            {% endfor %}
+                            {% if next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ next }}">></a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">></a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="no-events">No tags in base</div>
+    {% endif %}
+{% endblock %}

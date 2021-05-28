@@ -1,15 +1,14 @@
 from django.contrib.postgres.fields import CICharField
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
-from django.utils.functional import cached_property, classproperty
+from django.utils.functional import cached_property
 
 from colorfield.fields import ColorField
 from django_extensions.db.models import TimeStampedModel
 
-from main.models import Event
+from main.models.event import Event
 from event_manager.utils import clear_cached_properties
 from main.validators import TitleValidator
-
 
 TAG_CACHED_PROPERTIES = {
     "events_num"
@@ -25,23 +24,12 @@ class Tag(TimeStampedModel):
     title_validator = TitleValidator()
 
     title = CICharField(verbose_name='Тег', validators=[title_validator],
-                        max_length=50, unique=True)
-    back_color = ColorField(verbose_name='Цвет бэкграунда тега', default='#FFFFFF')
-    title_color = ColorField(verbose_name='Цвет тега', default='#000000')
+                        max_length=20, unique=True)
+    back_color = ColorField(verbose_name='Цвет бэкграунда тега', default='#000000')
+    title_color = ColorField(verbose_name='Цвет тега', default='#FFFFFF')
 
     def __str__(self):
         return self.title
-
-    # TODO озаботиться кешированием(обновлять в случае добавления/удаления тегов к какому-то ивенту)
-    @classproperty
-    def get_popular_tags(self):
-        """
-        Cached class property that calculates 10 most popular Tags.
-
-        Returns:
-            (list): list of 10 popular tags
-        """
-        return sorted(Tag.objects.all(), key=lambda tag: tag.events_num, reverse=True)[:10]
 
     @cached_property
     def events_num(self):

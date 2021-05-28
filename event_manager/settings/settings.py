@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'timezone_field',
+    'minio_storage',
 ]
 
 DATABASES = {
@@ -41,7 +42,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware'
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'event_manager.auth.middleware.TokenHeaderMiddleware',
 ]
 
 TEMPLATES = [
@@ -86,9 +88,9 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-us'
 
 # Datetime
-TIME_ZONE = 'UTC'
 USE_TZ = True
 USE_L10N = False
+TIME_ZONE = 'Europe/Moscow'
 DATETIME_FORMAT = "d.m.Y H:i"
 
 # Static
@@ -98,18 +100,3 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "main/static"),
 )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Cache
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
-
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.getenv('REDIS_URL'),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient"
-        },
-        "KEY_PREFIX": "emanager"
-    }
-}

@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Events{% endblock %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" media="all" href={% static "main/event/css/main.css" %}>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+{% endblock %}
+
+
+{% block content %}
+    {% if results %}
+        <div class="container-xxl mt-4 mb-4" id="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex flex-row justify-content-between align-items-center filters">
+                        <h6>Events in base: {{ all }}</h6>
+                        <div class="right-sort">
+                            <div class="sort-by"><span class="mr-2">Sort by:</span><a href="#">Most popular</a>
+                                <i class="fa fa-angle-down ml-1"></i>
+                                <button class="btn btn-outline-dark btn-sm ml-3 filter" type="button">
+                                    Filters&nbsp;<i class="fa fa-flask"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-1 mb-2 overflow-auto justify-content-md-center" style="height: 90%;">
+                {% for event in results %}
+                    <div class="col col-md-4 mt-3">
+                        <div class="p-card bg-white p-2 rounded px-3">
+                            <div class="d-flex align-items-center credits">
+                                <a href="/api/event/{{ event.slug }}">
+                                    {% if event.event_files %}
+                                        <img class="img-fluid" src="{{ event.event_files|first }}">
+                                    {% else %}
+                                        <img class="img-fluid" src="{% static "main/event/images/no-image.jpg" %}">
+                                    {% endif %}
+                                </a>
+                            </div>
+                            <h5 class="mt-2">
+                                <a href="/api/event/{{ event.slug }}" style="text-decoration: none; color: #11101d;">
+                                    {{ event.title|truncatechars:35 }}({{ event.status_name }})
+                                </a>
+                            </h5>
+                            {% for badge in event.get_popular_tags_html %}
+                                {{ badge|safe }}
+                            {% endfor %}
+                            <span class="d-block mb-4">{{ event.description|truncatechars:200 }}</span>
+                            <div class="d-flex justify-content-between stats mb-1">
+                                <div style="margin: auto 0;"><i class="fa fa-calendar-o"></i><span
+                                        class="ml-2">Starts: {{ event.start_date }}</span></div>
+                                <div class="profiles" style="display: flex;">
+                                    <div style="margin: auto 0;font-weight: 900;"><span
+                                            class="ml-2">{{ event.author_fullname }}</span></div>
+                                    {% if event.author_image %}
+                                        <img class="rounded-circle ml-2" src="{{ event.author_image }}" width="30">
+                                    {% else %}
+                                        <img class="rounded-circle ml-2" src="{% static "main/anonymous_user.png" %}"
+                                             width="30">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between stats">
+                                <div style="margin: auto 0;"><i class="fa fa-calendar-o"></i><span
+                                        class="ml-2">Ends: {{ event.end_date }}</span></div>
+                                {% if event.first_participants %}
+                                    <div class="d-flex flex-row align-items-center">
+                                        <div class="profiles">
+                                            {% for participant in event.first_participants %}
+                                                {% if participant %}
+                                                    <img class="rounded-circle" src="{{ participant }}" width="30">
+                                                {% else %}
+                                                    <img class="rounded-circle"
+                                                         src="{% static "main/anonymous_user.png" %}" width="30">
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <span class="ml-3">{{ event.participants|length }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if next or previous %}
+                <div class="justify-content-center text-right mt-4">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center pagination">
+                            {% if previous %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="{{ previous }}"><</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#"><</a>
+                                </li>
+                            {% endif %}
+                            {% for page in page_range %}
+                                {% ifequal page current %}
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="/api/events/?page={{ page }}">{{ page }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="/api/events/?page={{ page }}">{{ page }}</a>
+                                    </li>
+                                {% endifequal %}
+                            {% endfor %}
+                            {% if next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ next }}">></a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">></a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="no-events">No events in base</div>
+    {% endif %}
+{% endblock %}

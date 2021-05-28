@@ -57,7 +57,7 @@ span.app_name {
     margin-left: 10px;
 }
 
-.logo_content .logo i {
+.logo_content .logo img {
     font-size: 28px;
     margin-right: 10px;
 }
@@ -154,7 +154,7 @@ span.app_name {
     color: #1d1b31;
 }
 
-.sidebar ul li a {
+.sidebar a {
     color: #fff;
     display: flex;
     align-items: center;
@@ -167,6 +167,14 @@ span.app_name {
 .sidebar ul li a:hover {
     color: #11101d;
     background: #fff;
+}
+
+#log_out:hover {
+    color: red;
+}
+
+#log_in:hover {
+    color: limegreen;
 }
 
 .sidebar ul li i {
@@ -231,23 +239,25 @@ span.app_name {
     height: 45px;
     width: 45px;
     object-fit: cover;
-    border-radius: 12px;
+    border: 2px white solid;
+    border-radius: 15px;
+    margin-left: 15px;
 }
 
 .profile .profile_details .name_job {
-    margin-left: 10px;
+    margin-left: 12px;
 }
 
 .profile .profile_details .name {
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 400;
 }
 
 .profile .profile_details .job {
-    font-size: 12px;
+    font-size: 10px;
 }
 
-.profile #log_out {
+.profile #log_out, .profile #log_in {
     position: absolute;
     bottom: 5px;
     left: 50%;
@@ -261,11 +271,11 @@ span.app_name {
     background: #1d1b31;
 }
 
-.sidebar.active .profile #log_out {
+.sidebar.active .profile #log_out,  .sidebar.active .profile #log_in{
     left: 88%;
 }
 
-.sidebar.active .profile #log_out {
+.sidebar.active .profile #log_out, .sidebar.active .profile #log_in {
     background: none
 }
 
@@ -274,7 +284,6 @@ span.app_name {
     height: 100%;
     width: calc(100% - 78px);
     left: 78px;
-    background: #eae0ce;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     transition: all 0.5s ease;
 }
@@ -288,11 +297,10 @@ span.app_name {
     font-weight: 500;
     color: #1d1b31;
     margin: 12px;
+    display: flex;
 }
 
 .sidebar.active ~ .main_content {
     width: calc(100% - 240px);
     left: 240px;
 }
-
-only
