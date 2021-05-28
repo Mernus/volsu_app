@@ -11,8 +11,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 RUN touch /reload
 
-COPY /source/runserv/entrypoint.sh /usr/local/bin/
-RUN ln -s /usr/local/bin/entrypoint.sh /
+COPY runserv/entrypoint.sh /usr/local/bin/
+RUN chmod 777 /usr/local/bin/docker-entrypoint.sh \
+    && ln -s /usr/local/bin/entrypoint.sh /
 
 EXPOSE 8000
 ENTRYPOINT ["entrypoint.sh"]
