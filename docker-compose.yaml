@@ -29,9 +29,7 @@ services:
 
   emanager_app:
     container_name: emanager
-    build:
-      context: .
-      dockerfile: runserv/Dockerfile
+    image: mernus/emanager:latest
     restart: always
     env_file:
       - .env
