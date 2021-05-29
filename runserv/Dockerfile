@@ -7,13 +7,13 @@ WORKDIR /source
 RUN pip install --upgrade pip
 COPY . /source
 ADD requirements.txt /source/requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -Ur requirements.txt
 
 RUN touch /reload
 
 COPY runserv/entrypoint.sh /usr/local/bin/
-RUN chmod 777 /usr/local/bin/docker-entrypoint.sh \
-    && ln -s /usr/local/bin/entrypoint.sh /
+RUN chmod 777 /usr/local/bin/docker-entrypoint.sh && \
+    ln -s /usr/local/bin/entrypoint.sh /
 
 EXPOSE 8000
 ENTRYPOINT ["entrypoint.sh"]
