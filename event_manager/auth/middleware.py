@@ -21,7 +21,7 @@ class TokenHeaderMiddleware(MiddlewareMixin):
     def process_request(self, request):
         uri = request.META['REQUEST_URI']
         if uri in NO_AUTH_URLS:
-            return
+            return None
 
         if "admin" not in uri and not any(url in uri for url in REQUIRED_AUTH_URLS):
             return redirect("api:events")
@@ -37,3 +37,4 @@ class TokenHeaderMiddleware(MiddlewareMixin):
         access_token = request.session.get('jwt_access')
         if access_token:
             request.META['HTTP_AUTHORIZATION'] = f"Bearer {access_token}"
+        return None

@@ -17,4 +17,8 @@ RUN chmod 777 /usr/local/bin/entrypoint.sh && \
 
 EXPOSE 8000
 ENTRYPOINT ["entrypoint.sh"]
+
+RUN useradd -m uranami
+USER uranami
+
 CMD ["uwsgi"]
