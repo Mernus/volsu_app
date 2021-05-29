@@ -1,3 +1,6 @@
+import re
+import uuid
+
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -43,6 +46,23 @@ TRACKED_FIELDS = [
 ]
 
 
+def files_upload(instance: 'Event', filename: str):
+    """
+    Return path for uploaded files to minio
+
+    Args:
+        instance (Event): event instance
+        filename (str): filename of the file
+
+    Returns:
+        str: file path in minio
+    """
+    match = re.search(r"\.[^.\\/:*?\"<>|\r\n]+$", filename)
+    extension = match.group(0)
+    result_filename = str(uuid.uuid4())
+    return f"events/{instance.slug}/files/{result_filename}{extension}"
+
+
 class Event(TimeStampedModel):
     class Meta:
         verbose_name = 'Событие'
@@ -69,7 +89,7 @@ class Event(TimeStampedModel):
     status = models.IntegerField(verbose_name='Статус события',
                                  choices=EVENT_STATUSES,
                                  default=EVENT_STATUSES.RECONCILIATION)
-    event_files = ArrayField(models.URLField(blank=True, verbose_name='Картинки события'), size=10)
+    event_files = ArrayField(models.FileField(upload_to=files_upload, blank=True, verbose_name='Файлы события'), size=10)
 
     objects = models.Manager()
     public_objects = QueryManager(author__isnull=False, status__in=[1, 2, 3])

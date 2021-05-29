@@ -28,7 +28,17 @@ USER_LEVELS = Choices(
 )
 
 
-def profile_upload(instance, filename):
+def profile_upload(instance: 'User', filename: str):
+    """
+    Return path for uploaded files to minio
+
+    Args:
+        instance (User): user instance
+        filename (str): filename of the file
+
+    Returns:
+        str: file path in minio
+    """
     match = re.search(r"\.[^.\\/:*?\"<>|\r\n]+$", filename)
     extension = match.group(0)
     result_filename = str(uuid.uuid4())
