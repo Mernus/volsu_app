@@ -1,0 +1,12 @@
+client/
+__pycache__/
+*.py[cod]
+*$py.class
+.git/
+*.so
+
+.Python
+.idea
+tmp
+.scannerwork
+.vscode
