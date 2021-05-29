@@ -11,7 +11,9 @@ NO_AUTH_URLS = [
 ]
 
 REQUIRED_AUTH_URLS = [
-    "/api/event/", "/api/tag/", "/api/settings/",
+    "/api/event/", "/api/tag/",
+    "/api/tag/update/", "/api/tag/create/",
+    "/api/tag/delete/", "/api/settings/",
 ]
 
 
@@ -33,6 +35,5 @@ class TokenHeaderMiddleware(MiddlewareMixin):
             return redirect(LOGIN_URL)
 
         access_token = request.session.get('jwt_access')
-        # raise Exception(request.session.get('jwt_access'))
         if access_token:
             request.META['HTTP_AUTHORIZATION'] = f"Bearer {access_token}"
