@@ -37,10 +37,10 @@ RUN chmod 777 /usr/local/bin/entrypoint.sh && \
     ln -s /usr/local/bin/entrypoint.sh /
 
 RUN useradd -m uranami
-USER uranami
-
 RUN usermod -aG docker uranami
 RUN touch /reload
+
+USER uranami
 
 EXPOSE 8000
 ENTRYPOINT ["entrypoint.sh"]
