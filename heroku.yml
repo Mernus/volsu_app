@@ -1,2 +1,5 @@
+build:
+  config:
+    HEROKU: 1
 run:
   emanager: docker-compose -f docker-compose.yaml up
