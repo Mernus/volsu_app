@@ -39,9 +39,7 @@ RUN chmod 777 /usr/local/bin/entrypoint.sh && \
 RUN useradd -m uranami
 USER uranami
 
-RUN groupadd docker
 RUN usermod -aG docker $USER
-
 RUN touch /reload
 
 EXPOSE 8000
