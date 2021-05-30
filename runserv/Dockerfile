@@ -6,12 +6,12 @@ WORKDIR /source
 
 RUN pip install --upgrade pip
 COPY . /source
-ADD requirements.txt /source/requirements.txt
+ADD /requirements.txt /source/requirements.txt
 RUN pip install --no-cache-dir -Ur requirements.txt
 
 RUN touch /reload
 
-COPY runserv/entrypoint.sh /usr/local/bin/
+COPY /runserv/entrypoint.sh /usr/local/bin/
 RUN chmod 777 /usr/local/bin/entrypoint.sh && \
     ln -s /usr/local/bin/entrypoint.sh /
 
