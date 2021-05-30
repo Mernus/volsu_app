@@ -42,6 +42,7 @@ RUN usermod -aG docker uranami
 
 RUN touch /reload
 RUN service docker start
+RUN dockerd
 RUN docker version
 
 USER uranami
