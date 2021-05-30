@@ -3,7 +3,7 @@ FROM python:3.9
 USER root
 
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install \
+RUN apt-get --assume-yes install \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -14,8 +14,7 @@ RUN echo \
   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-RUN apt-get update
-RUN apt-get install docker-ce docker-ce-cli containerd.io
+RUN apt-get --assume-yes install docker-ce docker-ce-cli containerd.io
 
 RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
