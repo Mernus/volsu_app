@@ -18,8 +18,8 @@ RUN chmod 777 /usr/local/bin/entrypoint.sh && \
 RUN useradd -m uranami
 USER uranami
 
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install \
+RUN sudo apt-get update && apt-get upgrade -y
+RUN sudo apt-get install \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -30,15 +30,15 @@ RUN echo \
   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-RUN apt-get update
-RUN apt-get install docker-ce docker-ce-cli containerd.io
+RUN sudo apt-get update
+RUN sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
 RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
-RUN groupadd docker
-RUN usermod -aG docker $USER
+RUN sudo groupadd docker
+RUN sudo usermod -aG docker $USER
 
 RUN touch /reload
 
