@@ -42,7 +42,6 @@ RUN usermod -aG docker uranami
 
 RUN touch /reload
 RUN service docker start
-RUN service docker enable
 
 USER uranami
 
