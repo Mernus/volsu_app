@@ -1,5 +1,5 @@
 build:
   docker:
-    emanager: runserv/Dockerfile
+    emanager: Dockerfile
 run:
   emanager: docker-compose -f docker-compose.yaml up
