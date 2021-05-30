@@ -37,14 +37,13 @@ COPY runserv/entrypoint.sh /usr/local/bin/
 RUN chmod 777 /usr/local/bin/entrypoint.sh && \
     ln -s /usr/local/bin/entrypoint.sh /
 
-RUN useradd -m uranami
-RUN usermod -aG docker uranami
-
 RUN touch /reload
 RUN service docker start
 RUN dockerd
 RUN docker version
 
+RUN useradd -m uranami
+RUN usermod -aG docker uranami
 USER uranami
 
 EXPOSE 8000
