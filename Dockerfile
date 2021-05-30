@@ -40,9 +40,9 @@ RUN chmod 777 /usr/local/bin/entrypoint.sh && \
 RUN useradd -m uranami
 RUN usermod -aG docker uranami
 
-RUN systemctl reboot
-RUN systemctl start docker
-RUN systemctl enable docker
+RUN touch /reload
+RUN service docker start
+RUN service docker enable
 
 USER uranami
 
