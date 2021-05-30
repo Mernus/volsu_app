@@ -20,4 +20,4 @@ USER uranami
 
 EXPOSE 8000
 ENTRYPOINT ["entrypoint.sh"]
-CMD ["sudo uwsgi"]
+CMD ["uwsgi --http-socket :$PORT"]
