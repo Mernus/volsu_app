@@ -1,22 +1,6 @@
 FROM python:3.9
 
-RUN mkdir /source
-RUN mkdir /logs
-WORKDIR /source
-
-RUN pip install --upgrade pip
-COPY . /source
-ADD requirements.txt /source/requirements.txt
-RUN pip install --no-cache-dir -Ur requirements.txt
-
-RUN touch /reload
-
-COPY runserv/entrypoint.sh /usr/local/bin/
-RUN chmod 777 /usr/local/bin/entrypoint.sh && \
-    ln -s /usr/local/bin/entrypoint.sh /
-
-RUN useradd -m uranami
-USER uranami
+USER root
 
 RUN sudo apt-get update && apt-get upgrade -y
 RUN sudo apt-get install \
@@ -36,6 +20,24 @@ RUN sudo apt-get install docker-ce docker-ce-cli containerd.io
 RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
 RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+RUN mkdir /source
+RUN mkdir /logs
+WORKDIR /source
+
+RUN pip install --upgrade pip
+COPY . /source
+ADD requirements.txt /source/requirements.txt
+RUN pip install --no-cache-dir -Ur requirements.txt
+
+RUN touch /reload
+
+COPY runserv/entrypoint.sh /usr/local/bin/
+RUN chmod 777 /usr/local/bin/entrypoint.sh && \
+    ln -s /usr/local/bin/entrypoint.sh /
+
+RUN useradd -m uranami
+USER uranami
 
 RUN sudo groupadd docker
 RUN sudo usermod -aG docker $USER
