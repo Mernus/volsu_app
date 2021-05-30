@@ -22,12 +22,6 @@ event_01 = {
     'website': "https://pages.jetbrains.com/dotnet-days-2021/blog",
     'author': superuser,
     'status': EVENT_STATUSES.WAITING,
-    'event_files': [
-        "https://blog.jetbrains.com/wp-content/uploads/2021/04/DSGN-10873-banners-JetBrains-.NET-Days-Online-2021-General-promo_Preview_site_1280x720-1.png",
-        "https://blog.jetbrains.com/wp-content/uploads/2021/04/DSGN-10850_Webinar_OSS_Power_Ups_Silk_dotNET_1300x880_email_register.png",
-        "https://blog.jetbrains.com/wp-content/uploads/2021/04/resharper-vs2022-64b.png",
-        "https://blog.jetbrains.com/wp-content/uploads/2021/04/resharper-leveldb-post-card.png"
-    ],
     'start_date': timezone.make_aware(datetime.strptime("11/05/21 00:00", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
     'end_date': timezone.make_aware(datetime.strptime("12/05/21 23:59", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
 }
@@ -46,11 +40,6 @@ event_02 = {
     'website': "https://us.pycon.org/2021/",
     'author': superuser,
     'status': EVENT_STATUSES.WAITING,
-    'event_files': [
-        "https://humbledata.org/assets/img/cover/pyconus-21.png",
-        "https://pbs.twimg.com/profile_images/1333824350672154624/_P1hFKa3.jpg",
-        "https://us.pycon.org/2021/static/images/top-snake.093a29aa904f.png",
-    ],
     'start_date': timezone.make_aware(datetime.strptime("12/05/21 18:00", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
     'end_date': timezone.make_aware(datetime.strptime("18/05/21 23:59", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
 }
@@ -67,12 +56,6 @@ event_03 = {
     'website': "https://devopspro.lt/",
     'author': superuser,
     'status': EVENT_STATUSES.WAITING,
-    'event_files': [
-        "https://cdn.datafloq.com/event_pictures/Karolina_Turauskait%C4%97_-_devops_en_bendrineseb_1200x628.jpg",
-        "https://devopspro.lt/wp-content/uploads/2020/01/LinkedIn-koveris.jpg",
-        "https://pbs.twimg.com/media/Eu5kUl5XYAAjT3e.jpg",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtEXrkFPh8xPMqfoqJnFtGv79SnYQAe1clcQ&usqp=CAU",
-    ],
     'start_date': timezone.make_aware(datetime.strptime("11/05/21 09:00", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
     'end_date': timezone.make_aware(datetime.strptime("13/05/21 16:10", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
 }
@@ -90,12 +73,6 @@ event_04 = {
     'website': "https://partner.agile-academy.com/en/agile100/",
     'author': superuser,
     'status': EVENT_STATUSES.WAITING,
-    'event_files': [
-        "https://pbs.twimg.com/media/EyxwZ8qWQAUeVHK.jpg",
-        "https://media-exp1.licdn.com/dms/image/C4D1BAQF02R0Fig4l8Q/company-background_10000/0/1604302092118?e=2159024400&v=beta&t=y9IEdNro4WohgNp5VdivrunVA5paDLLRCL0-8fkrUrA",
-        "https://i.ytimg.com/vi/IrfQ0nU_e2Q/maxresdefault.jpg",
-        "https://pbs.twimg.com/media/EzgUw_DX0AgBRTl.jpg",
-    ],
     'start_date': timezone.make_aware(datetime.strptime("14/05/21 14:50", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
     'end_date': timezone.make_aware(datetime.strptime("14/05/21 19:30", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
 }
@@ -121,12 +98,6 @@ event_05 = {
     'website': "https://www.gluecon.com/",
     'author': superuser,
     'status': EVENT_STATUSES.WAITING,
-    'event_files': [
-        "http://static1.squarespace.com/static/6022d3bd4d9eed6e497212b0/t/602eb28c107ce502c020e211/1613673105174/GLUE2020_LOGO_blk_72.png?format=1500w",
-        "https://images.squarespace-cdn.com/content/v1/6022d3bd4d9eed6e497212b0/1613690250136-9PCBLL5R6U0AUMWQ8C2U/ke17ZwdGBToddI8pDm48kNzZ-zcgtvZFpwwFWdpSltZZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZUJFbgE-7XRK3dMEBRBhUpzlxouEdKuoif16b4e-Js9knoaAOqxCAuwc0xujfjKUadqVmgbaG7kPDONOL7T-6u4/Sponorships+TAB+GlueCon.jpg",
-        "https://images.squarespace-cdn.com/content/v1/6022d3bd4d9eed6e497212b0/1613693905733-SJCYOA63BLQTTAEQB267/ke17ZwdGBToddI8pDm48kKr0KuvORDAQDNQ3z_Q-APoUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYy7Mythp_T-mtop-vrsUOmeInPi9iDjx9w8K4ZfjXt2dgagFFYtHl8fJqbA62CQWKXFj15upk5Aq02W4saXdxg5ZDqXZYzu2fuaodM4POSZ4w/HomeSlider_hotel.jpg?format=2500w",
-        "https://images.squarespace-cdn.com/content/v1/6022d3bd4d9eed6e497212b0/1613693713162-AWEXNYKO5NJ011ZD1JBJ/ke17ZwdGBToddI8pDm48kL6zQ2sxWcwG1fJ0v1vb6egUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYy7Mythp_T-mtop-vrsUOmeInPi9iDjx9w8K4ZfjXt2dpMGc0QFwk6OT8zNU8TmrOo4KEN1ubdl-BnPEoVIE2giG6v6ULRah83RgHXAWD5lbQ/OMNI-MAP.jpg?format=2500w",
-    ],
     'start_date': timezone.make_aware(datetime.strptime("17/11/21 00:00", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
     'end_date': timezone.make_aware(datetime.strptime("18/11/21 23:59", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
 }
@@ -152,10 +123,6 @@ event_06 = {
     'website': "https://www.blockchaineconomy.istanbul/",
     'author': superuser,
     'status': EVENT_STATUSES.WAITING,
-    'event_files': [
-        "https://www.smartmoneymatch.com/uploads/files/1615557174.png",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2gItG-hWrWVgWtuKWqKuW9LbP1leeFjiL2A&usqp=CAU",
-    ],
     'start_date': timezone.make_aware(datetime.strptime("22/11/21 00:00", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
     'end_date': timezone.make_aware(datetime.strptime("22/11/21 23:59", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
 }
