@@ -18,7 +18,7 @@ RUN chmod 777 /usr/local/bin/entrypoint.sh && \
 RUN useradd -m uranami
 USER uranami
 
-RUN apt-get update
+RUN apt-get update && apt-get upgrade -y
 RUN apt-get install \
     apt-transport-https \
     ca-certificates \
