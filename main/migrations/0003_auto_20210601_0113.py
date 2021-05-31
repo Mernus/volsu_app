@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='event',
             name='event_files',
-            field=django.contrib.postgres.fields.ArrayField(base_field=models.FileField(blank=True, null=True, upload_to=main.models.event.files_upload, verbose_name='Файлы события'), null=True, size=10),
+            field=django.contrib.postgres.fields.ArrayField(base_field=models.FileField(blank=True, null=True, upload_to=main.models.event.files_upload, verbose_name='Файлы события'), blank=True, null=True, size=10),
         ),
         migrations.AlterField(
             model_name='user',
