@@ -168,7 +168,27 @@
                             <div class="tab-pane fade mt-3" id="participants" role="tabpanel"
                                  aria-labelledby="participants-tab">
                                 {% if participants %}
-                                    {{ description }}
+                                    {% for user in participants %}
+                                        <div class="container">
+                                            <div class="row flex-row flex-nowrap text-center">
+                                                <div class="scrollable col-sm-4 mb-5">
+                                                    <div class="bg-white rounded shadow-sm py-5 px-4"><img
+                                                            src="https://d19m59y37dris4.cloudfront.net/university/1-1-1/img/teacher-7.jpg"
+                                                            alt="" width="100"
+                                                            class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
+                                                        <h5 class="mb-0">John Tarly</h5><span
+                                                                class="small text-uppercase text-muted">CEO - Founder</span>
+                                                        <ul class="social mb-0 list-inline mt-3">
+                                                            <li class="list-inline-item"><a href="#"
+                                                                                            class="social-link"><i
+                                                                    class="fa fa-comments-o" aria-hidden="true"></i></a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
                                 {% else %}
                                     <div class="no-event">No participants registered to event yet</div>
                                 {% endif %}
