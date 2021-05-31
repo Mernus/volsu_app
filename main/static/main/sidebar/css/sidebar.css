@@ -155,7 +155,7 @@ span.app_name {
 }
 
 .sidebar a {
-    color: #fff;
+    color: #fff !important;
     display: flex;
     align-items: center;
     text-decoration: none;
