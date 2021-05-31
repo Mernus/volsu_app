@@ -15,9 +15,6 @@ COPY runserv/entrypoint.sh /usr/local/bin/
 RUN chmod 777 /usr/local/bin/entrypoint.sh && \
     ln -s /usr/local/bin/entrypoint.sh /
 
-RUN useradd -m uranami
-USER uranami
-
 EXPOSE 8000
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["uwsgi"]
