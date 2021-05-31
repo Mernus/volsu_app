@@ -72,7 +72,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField('Активен',
                                     default=True,
                                     help_text='Активен ли пользователь. Используется вместо удаления объекта.')
-    profile_img = models.ImageField(upload_to=profile_upload, blank=True, verbose_name='Картинка профиля')
+    profile_img = models.ImageField(upload_to=profile_upload, blank=True, null=True, verbose_name='Картинка профиля')
 
     objects = UserManager()
 
