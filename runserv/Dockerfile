@@ -16,9 +16,14 @@ RUN chmod 777 /usr/local/bin/entrypoint.sh && \
     ln -s /usr/local/bin/entrypoint.sh /
 
 RUN apt-get update
-RUN apt-get --assume-yes install nginx
-RUN cat runserv/nginx.conf > /etc/nginx/nginx.conf
-RUN /etc/init.d/nginx start
+RUN apt-get --assume-yes install nano \
+                                 wget \
+                                 dialog \
+                                 net-tools \
+                                 nginx
+RUN rm -v /etc/nginx/nginx.conf && \
+    copy runserv/nginx.conf /etc/nginx/nginx.conf
+RUN service nginx start
 
 EXPOSE 8000
 ENTRYPOINT ["entrypoint.sh"]
