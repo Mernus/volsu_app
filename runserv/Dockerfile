@@ -15,6 +15,7 @@ COPY runserv/entrypoint.sh /usr/local/bin/
 RUN chmod 777 /usr/local/bin/entrypoint.sh && \
     ln -s /usr/local/bin/entrypoint.sh /
 
+RUN apt-get update
 RUN apt-get install nginx
 RUN ln -s runserv/nginx.conf /etc/nginx/nginx.conf
 RUN /etc/init.d/nginx start
