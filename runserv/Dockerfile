@@ -17,7 +17,7 @@ RUN chmod 777 /usr/local/bin/entrypoint.sh && \
 
 RUN apt-get update
 RUN apt-get --assume-yes install nginx
-RUN ln -s runserv/nginx.conf /etc/nginx/nginx.conf
+RUN ln -sf runserv/nginx.conf /etc/nginx/nginx.conf
 RUN /etc/init.d/nginx start
 
 EXPOSE 8000
