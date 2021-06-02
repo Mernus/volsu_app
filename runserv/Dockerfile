@@ -15,7 +15,6 @@ COPY runserv/entrypoint.sh /usr/local/bin/
 RUN chmod 777 /usr/local/bin/entrypoint.sh && \
     ln -s /usr/local/bin/entrypoint.sh /
 
-RUN echo "deb http://archive.ubuntu.com/ubuntu/ raring main universe" >> /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get --assume-yes install nano \
                                  wget \
