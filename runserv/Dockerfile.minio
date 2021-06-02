@@ -38,4 +38,4 @@ ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
 
 VOLUME ["/data"]
 
-CMD ["minio", "server", "/data"]
+CMD minio server --address :$PORT /data
