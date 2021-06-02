@@ -22,7 +22,7 @@ RUN apt-get --assume-yes install nano \
                                  net-tools \
                                  nginx
 RUN rm -v /etc/nginx/nginx.conf && \
-    copy runserv/nginx.conf /etc/nginx/nginx.conf
+    cp runserv/nginx.conf /etc/nginx/nginx.conf
 RUN service nginx start
 
 EXPOSE 8000
