@@ -27,7 +27,7 @@ SIMPLE_JWT = {
     'ALGORITHM': os.getenv('JWT_ALGORITHM'),
     'AUTH_HEADER_TYPES': os.getenv('JWT_AUTH_HEADER_PREFIX'),
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(seconds=1800),
-    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=15),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=5),
     'SIGNING_KEY': open(SIGNING_KEY_FILE).read(),
     'VERIFYING_KEY': open(VERIFYING_KEY_FILE).read(),
 }

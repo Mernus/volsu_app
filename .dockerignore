@@ -10,3 +10,4 @@ __pycache__/
 tmp
 .scannerwork
 .vscode
+init-user-db.sh

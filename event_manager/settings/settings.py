@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 
 from pathlib import Path
 
@@ -23,16 +24,10 @@ INSTALLED_APPS = [
     'minio_storage',
 ]
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_DATABASE', 'event_manager'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'em1111'),
-        'USER': os.getenv('DB_USER', 'emanager'),
-        'HOST': os.getenv('DB_HOST', 'emanager_db'),
-        'PORT': int(os.getenv('DB_PORT', 5432)),
-    }
-}
+DATABASES = {}
+DATABASE_URL = os.getenv('DATABASE_URL')
+DATABASES['default'] = dj_database_url.config(ssl_require=True, conn_max_age=600)
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
