@@ -74,7 +74,7 @@
                             </div>
                             <div class="header mt-3">
                                 <h5>Organization:</h5>
-                                <h5>{{ author_org|default:"no organization" }}</h5>
+                                <h5>{{ author_org|default:"No organization" }}</h5>
                             </div>
                             <hr class="my-3">
                             <div class="header mt-3" style="justify-content: space-around;">
@@ -173,11 +173,13 @@
                                             <div class="row flex-row flex-nowrap text-center">
                                                 <div class="scrollable col-sm-4 mb-5">
                                                     <div class="bg-white rounded shadow-sm py-5 px-4"><img
-                                                            src="https://d19m59y37dris4.cloudfront.net/university/1-1-1/img/teacher-7.jpg"
+                                                            src="{{ user.profile_img }}"
                                                             alt="" width="100"
                                                             class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                                                        <h5 class="mb-0">John Tarly</h5><span
-                                                                class="small text-uppercase text-muted">CEO - Founder</span>
+                                                        <h5 class="mb-0">{{ user.username }}</h5>
+                                                        {% if user.organization %}
+                                                            <span class="small text-uppercase text-muted">{{ user.organization }}</span>
+                                                        {% endif %}
                                                         <ul class="social mb-0 list-inline mt-3">
                                                             <li class="list-inline-item"><a href="#"
                                                                                             class="social-link"><i

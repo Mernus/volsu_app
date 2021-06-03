@@ -137,7 +137,7 @@ $(function () {
     });
 
     const usernameRegexp = new RegExp('[A-Za-z0-9.@+-]{3,80}');
-    const fullnameRegexp = new RegExp('[А-ЯA-Za-zа-я- ]{,100}');
+    const fullnameRegexp = new RegExp('[А-ЯA-Za-zа-я- ]{1,100}');
     // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email
     const emailRegexp = new RegExp('[a-zA-Z0-9.!#$%&\'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*');
     const orgRegexp = new RegExp('[^!\"\'$^;?*,<>]{,120}');

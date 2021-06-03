@@ -98,16 +98,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def clean(self):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
-
-        if self.level is USER_LEVELS.ORGANIZER:
-            if not self.organization:
-                self.organization = 'Без организации'
-        elif self.organization:
-            raise ValidationError(
-                {'organization': 'Организация может быть только у пользователя с правами Организатор'}
-            )
-
         self.is_staff = self.level is USER_LEVELS.ADMIN
+
+        if self.level is USER_LEVELS.ORGANIZER and not self.organization:
+            self.organization = 'No organization'
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)

@@ -162,8 +162,11 @@
 }
 
 .invalid-tooltip {
-    top: -80% !important;
     font-size: .75rem !important;
+}
+
+.username.invalid-tooltip {
+    top: -80% !important;
 }
 
 #imageHelp {
