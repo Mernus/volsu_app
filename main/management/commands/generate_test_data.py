@@ -52,7 +52,7 @@ class Command(BaseCommand):
             # Add image to superuser
             superuser = User.objects.filter(is_superuser=True).first()
             profile_image = join(MINIO_TEST_IMAGES, 'users/superuser_image.jpg')
-            superuser.profile_img.save(File(open(profile_image, 'rb')))
+            superuser.profile_img.save('superuser_image.jpg', File(open(profile_image, 'rb')))
 
         except Exception as exc:
             _print(str(exc), string_code="err", path="generate_test_data")
