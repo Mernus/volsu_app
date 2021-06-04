@@ -32,12 +32,13 @@ class TokenHeaderMiddleware(MiddlewareMixin):
             return redirect("api:events")
 
         user = request.user
+        request['profile_img'] = self._build_minio_uri(user.profile_img)
+
         user_id = request.session.get('user_id')
         if user is None and user_id is not None:
             request.user = get_object_or_None(User, id=user_id)
-            request['profile_img'] = self._build_minio_uri(request.user.profile_img)
 
-        if not request.user.is_authenticated:
+        if not user.is_authenticated:
             return redirect(LOGIN_URL)
 
         access_token = request.session.get('jwt_access')
