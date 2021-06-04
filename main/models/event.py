@@ -63,6 +63,16 @@ def files_upload(instance: 'Event', filename: str):
     return f"events/{instance.slug}/files/{result_filename}{extension}"
 
 
+class EventFile(TimeStampedModel):
+    class Meta:
+        verbose_name = 'Файл события'
+        verbose_name_plural = 'Файлы события'
+        ordering = ['event']
+
+    event = models.ForeignKey('Event', on_delete=models.CASCADE, verbose_name='Cобытие')
+    file = models.FileField(upload_to=files_upload, verbose_name='Файл')
+
+
 class Event(TimeStampedModel):
     class Meta:
         verbose_name = 'Событие'

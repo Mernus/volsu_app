@@ -36,8 +36,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-6">
-                            {% if event_files %}
-                                <img class="img-fluid rounded float-start" src="{{ event_files|first }}">
+                            {% if eventfile_set %}
+                                <img class="img-fluid rounded float-start" src="{{ eventfile_set|first }}">
                             {% else %}
                                 <img class="img-fluid rounded float-start"
                                      src="{% static "main/event/images/no-image.jpg" %}">
@@ -119,10 +119,10 @@
                                 {% endif %}
                             </div>
                             <div class="tab-pane fade mt-3" id="images" role="tabpanel" aria-labelledby="images-tab">
-                                {% if event_files %}
+                                {% if eventfile_set %}
                                     <div id="carouselControls" class="carousel slide" data-bs-ride="carousel">
                                         <div class="carousel-inner">
-                                            {% for image in event_files %}
+                                            {% for image in eventfile_set %}
                                                 <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
                                                     <img src="{{ image }}" class="d-block">
                                                 </div>

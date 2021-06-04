@@ -24,7 +24,7 @@ class EventSerializer(serializers.ModelSerializer):
             "title", "description", "location", "tags",
             "website", "get_tags_html", "author_name", "slug",
             "participants", "start_date_aware", "end_date_aware",
-            "status_name", "event_files", "author_image",
+            "status_name", "eventfile_set", "author_image",
             "author_org", "all_tags"
         ]
 
@@ -44,6 +44,6 @@ class ListEventSerializer(serializers.ModelSerializer):
         fields = [
             "title", "description", "get_popular_tags_html",
             "start_date", "end_date", "slug",
-            "event_files", "status_name", "author_image",
+            "eventfile_set", "status_name", "author_image",
             "first_participants", "author_fullname"
         ]
