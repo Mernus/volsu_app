@@ -4,7 +4,7 @@ from os.path import join
 from django.core.files import File
 from django.core.management import BaseCommand
 
-from event_manager.settings import MINIO_TEST_IMAGES
+from event_manager.settings import BASE_DIR, MINIO_TEST_IMAGES
 from event_manager.utils import colored_print as _print
 
 from main.models import Event, Tag, User
@@ -51,7 +51,7 @@ class Command(BaseCommand):
         try:
             # Add image to superuser
             superuser = User.objects.filter(is_superuser=True).first()
-            profile_image = join(MINIO_TEST_IMAGES, 'users/superuser_image.jpg')
+            profile_image = join(BASE_DIR, 'main/test', MINIO_TEST_IMAGES, 'users/superuser_image.jpg')
             superuser.profile_img.save('superuser_image.jpg', File(open(profile_image, 'rb')))
 
         except Exception as exc:
