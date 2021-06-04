@@ -77,10 +77,10 @@
                                         <div class="profiles">
                                             {% for participant in event.first_participants %}
                                                 {% if participant %}
-                                                    <img class="rounded-circle" src="{{ participant }}" width="30">
+                                                    <img class="rounded-circle" src="{{ participant }}" width="30" height="30">
                                                 {% else %}
                                                     <img class="rounded-circle"
-                                                         src="{% static "main/anonymous_user.png" %}" width="30">
+                                                         src="{% static "main/anonymous_user.png" %}" width="30" height="30">
                                                 {% endif %}
                                             {% endfor %}
                                         </div>

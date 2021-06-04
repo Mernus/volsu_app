@@ -1,5 +1,5 @@
 from django import template
-from django.conf import settings
+from event_manager import settings
 
 register = template.Library()
 
