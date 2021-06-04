@@ -8,7 +8,7 @@ from pytz import timezone as tz
 
 from django.utils import timezone
 
-from event_manager.settings import MINIO_TEST_IMAGES, TIME_ZONE
+from event_manager.settings import BASE_DIR, MINIO_TEST_IMAGES, TIME_ZONE
 from main.models import EVENT_STATUSES, User
 
 superuser = User.objects.filter(is_superuser=True).first()
@@ -27,7 +27,7 @@ def get_event_files(event_key: str) -> List['File']:
     if event_key not in EVENT_FILE_MAPPING:
         return []
 
-    event_dir = join(MINIO_TEST_IMAGES, EVENT_FILE_MAPPING[event_key])
+    event_dir = join(BASE_DIR, MINIO_TEST_IMAGES, EVENT_FILE_MAPPING[event_key])
     event_files = []
     for ev_file in listdir(event_dir):
         event_files.append(File(open(join(event_dir, ev_file), 'rb')))
