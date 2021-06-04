@@ -165,13 +165,13 @@ span.app_name {
 }
 
 .sidebar ul li a:hover {
-    color: #212529;
-    background: #fff;
+    color: #212529 !important;
+    background: #fff !important;
 }
 
 .sidebar ul li i:hover {
-    color: #212529;
-    background: #fff;
+    color: #212529 !important;
+    background: #fff !important;
 }
 
 #log_out:hover {
