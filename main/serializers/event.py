@@ -7,7 +7,7 @@ from main.serializers.mixins import DateTimeFieldWihTZ
 class EventSerializer(serializers.ModelSerializer):
     status_name = serializers.ChoiceField(source='get_status_display', choices=EVENT_STATUSES)
     author_name = serializers.StringRelatedField(source='author.get_short_name', read_only=True)
-    author_image = serializers.URLField(source='author.profile_img', read_only=True)
+    author_image = serializers.ImageField(source='author.profile_img', read_only=True)
     author_org = serializers.StringRelatedField(source='author.organization', read_only=True)
     start_date_aware = DateTimeFieldWihTZ(source='start_date', read_only=True)
     end_date_aware = DateTimeFieldWihTZ(source='end_date', read_only=True)
@@ -37,7 +37,7 @@ class EventSerializer(serializers.ModelSerializer):
 class ListEventSerializer(serializers.ModelSerializer):
     status_name = serializers.ChoiceField(source='get_status_display', choices=EVENT_STATUSES)
     author_fullname = serializers.StringRelatedField(source='author', read_only=True)
-    author_image = serializers.URLField(source='author.profile_img', read_only=True)
+    author_image = serializers.ImageField(source='author.profile_img', read_only=True)
 
     class Meta:
         model = Event

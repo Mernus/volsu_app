@@ -1,6 +1,0 @@
-docker build -t minio_service -f Dockerfile.minio .
-docker tag minio_service mernus/minio
-docker push mernus/minio
-docker tag mernus/minio registry.heroku.com/emanager-volsu-minio/web
-docker push registry.heroku.com/emanager-volsu-minio/web
-heroku container:release web -a emanager-volsu-minio
