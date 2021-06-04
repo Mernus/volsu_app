@@ -63,8 +63,8 @@
     <div class="profile_content">
         <div class="profile">
             <div class="profile_details">
-                {% if profile_img %}
-                    <img src="{{ profile_img }}" alt="Current user">
+                {% if request.user.profile_img %}
+                    <img src="{{ request.user.profile_img.url }}" alt="Current user">
                 {% else %}
                     <img src="{% static "main/anonymous_user.png" %}" alt="Anonymous user">
                 {% endif %}
