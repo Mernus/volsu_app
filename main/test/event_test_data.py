@@ -1,12 +1,37 @@
-from django.utils import timezone
-
+from os import listdir
+from os.path import join
 from datetime import datetime
+from typing import List
+
+from django.core.files import File
 from pytz import timezone as tz
 
-from event_manager.settings import TIME_ZONE
+from django.utils import timezone
+
+from event_manager.settings import MINIO_TEST_IMAGES, TIME_ZONE
 from main.models import EVENT_STATUSES, User
 
-superuser = User.objects.get(username='admin')
+superuser = User.objects.filter(is_superuser=True).first()
+
+EVENT_FILE_MAPPING = {
+    'jbrains': "events/jetbrains/",
+    'pycon': "events/pycon/",
+    'devops': "events/devops/",
+    'agile': "events/agile/",
+    'gcon': "events/gluecon/",
+    'bchain': "events/blockchain/",
+}
+
+
+def get_event_files(event_key: str) -> List['File']:
+    if event_key not in EVENT_FILE_MAPPING:
+        return []
+
+    event_dir = join(MINIO_TEST_IMAGES, EVENT_FILE_MAPPING[event_key])
+    event_files = []
+    for ev_file in listdir(event_dir):
+        event_files.append(File(open(join(event_dir, ev_file), 'rb')))
+
 
 event_01 = {
     'title': "JetBrains .NET Days Online 2021",
@@ -24,10 +49,11 @@ event_01 = {
     'status': EVENT_STATUSES.WAITING,
     'start_date': timezone.make_aware(datetime.strptime("11/05/21 00:00", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
     'end_date': timezone.make_aware(datetime.strptime("12/05/21 23:59", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
+    'event_files': get_event_files('jbrains'),
 }
 
 event_02 = {
-    'title': "PyCom US 2021",
+    'title': "PyCon US 2021",
     'description': "First and foremost we want to send our very best to you "
                    "as well as your family and friends as we all continue to navigate the challenges of COVID-19. "
                    "With the safety of our community in mind the decision was made to hold the event virtually. "
@@ -42,6 +68,7 @@ event_02 = {
     'status': EVENT_STATUSES.WAITING,
     'start_date': timezone.make_aware(datetime.strptime("12/05/21 18:00", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
     'end_date': timezone.make_aware(datetime.strptime("18/05/21 23:59", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
+    'event_files': get_event_files('pycon'),
 }
 
 event_03 = {
@@ -58,6 +85,7 @@ event_03 = {
     'status': EVENT_STATUSES.WAITING,
     'start_date': timezone.make_aware(datetime.strptime("11/05/21 09:00", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
     'end_date': timezone.make_aware(datetime.strptime("13/05/21 16:10", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
+    'event_files': get_event_files('devops'),
 }
 
 event_04 = {
@@ -75,6 +103,7 @@ event_04 = {
     'status': EVENT_STATUSES.WAITING,
     'start_date': timezone.make_aware(datetime.strptime("14/05/21 14:50", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
     'end_date': timezone.make_aware(datetime.strptime("14/05/21 19:30", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
+    'event_files': get_event_files('agile'),
 }
 
 event_05 = {
@@ -100,6 +129,7 @@ event_05 = {
     'status': EVENT_STATUSES.WAITING,
     'start_date': timezone.make_aware(datetime.strptime("17/11/21 00:00", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
     'end_date': timezone.make_aware(datetime.strptime("18/11/21 23:59", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
+    'event_files': get_event_files('gcon'),
 }
 
 event_06 = {
@@ -125,6 +155,7 @@ event_06 = {
     'status': EVENT_STATUSES.WAITING,
     'start_date': timezone.make_aware(datetime.strptime("22/11/21 00:00", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
     'end_date': timezone.make_aware(datetime.strptime("22/11/21 23:59", "%d/%m/%y %H:%M"), tz(TIME_ZONE)),
+    'event_files': get_event_files('bchain'),
 }
 
 events = [event_01, event_02, event_03, event_04, event_05, event_06]
