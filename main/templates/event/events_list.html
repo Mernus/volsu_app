@@ -62,10 +62,10 @@
                                     <div style="margin: auto 0;font-weight: 900;"><span
                                             class="ml-2">{{ event.author_fullname }}</span></div>
                                     {% if event.author_image %}
-                                        <img class="rounded-circle ml-2" src="{{ event.author_image }}" width="30">
+                                        <img class="rounded-circle ml-2" src="{{ event.author_image }}" width="30" height="30">
                                     {% else %}
                                         <img class="rounded-circle ml-2" src="{% static "main/anonymous_user.png" %}"
-                                             width="30">
+                                             width="30" height="30">
                                     {% endif %}
                                 </div>
                             </div>

@@ -1,3 +1,4 @@
+{% load settings %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,7 +65,7 @@
         <div class="profile">
             <div class="profile_details">
                 {% if request.user.profile_img %}
-                    <img src="{{ request.user.profile_img }}" alt="Current user">
+                    <img src="{% settings "MINIO_STORAGE_ENDPOINT" "MINIO_STORAGE_MEDIA_BUCKET_NAME" %}{{ request.user.profile_img }}" alt="Current user">
                 {% else %}
                     <img src="{% static "main/anonymous_user.png" %}" alt="Anonymous user">
                 {% endif %}

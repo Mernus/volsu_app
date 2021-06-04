@@ -164,6 +164,11 @@ span.app_name {
     transition: all 0.4s ease;
 }
 
+.sidebar ul li a:hover {
+    color: #212529;
+    background: #fff;
+}
+
 .sidebar ul li i:hover {
     color: #212529;
     background: #fff;
