@@ -70,7 +70,7 @@ class EventFile(TimeStampedModel):
         ordering = ['event']
 
     event = models.ForeignKey('Event', on_delete=models.CASCADE, verbose_name='Cобытие')
-    file = models.FileField(upload_to=files_upload, verbose_name='Файл')
+    file = models.FileField(upload_to=files_upload, verbose_name='Файл', null=True)
 
 
 class Event(TimeStampedModel):
@@ -99,7 +99,6 @@ class Event(TimeStampedModel):
     status = models.IntegerField(verbose_name='Статус события',
                                  choices=EVENT_STATUSES,
                                  default=EVENT_STATUSES.RECONCILIATION)
-    event_files = ArrayField(models.FileField(upload_to=files_upload, blank=True, null=True, verbose_name='Файлы события'), size=10, blank=True, null=True)
 
     objects = models.Manager()
     public_objects = QueryManager(author__isnull=False, status__in=[1, 2, 3])

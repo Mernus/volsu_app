@@ -1,5 +1,7 @@
 import random
+from os import listdir
 from os.path import join
+from typing import List
 
 from django.core.files import File
 from django.core.management import BaseCommand
@@ -7,9 +9,23 @@ from django.core.management import BaseCommand
 from event_manager.settings import BASE_DIR, MINIO_TEST_IMAGES
 from event_manager.utils import colored_print as _print
 
-from main.models import Event, Tag, User
-from main.test.event_test_data import events
+from main.models import Event, EventFile, Tag, User
+from main.test.event_test_data import EVENT_FILE_MAPPING, TEST_DIR, events
 from main.test.tag_test_data import tags
+
+
+def get_event_files(event_key: str) -> List['File']:
+    if event_key not in EVENT_FILE_MAPPING:
+        return []
+
+    event_dir = join(TEST_DIR, MINIO_TEST_IMAGES, EVENT_FILE_MAPPING[event_key])
+    event_files = []
+    try:
+        for ev_file in listdir(event_dir):
+            event_files.append(EventFile(File(open(join(event_dir, ev_file), 'rb'))))
+        return event_files
+    except FileNotFoundError:
+        return []
 
 
 class Command(BaseCommand):
@@ -35,7 +51,12 @@ class Command(BaseCommand):
         if Event.objects.filter(title=events[0]['title']).count() == 0:
             try:
                 for event_kwargs in events:
+                    files = event_kwargs.pop('event_files')
                     obj = Event.objects.create(**event_kwargs)
+                    for file in files:
+                        event_file = EventFile.objects.create(event=obj)
+                        event_file.file = file
+                        event_file.save()
 
                     ids_num = random.randint(1, 7)
                     obj.tags.add(*random.sample(tag_ids, ids_num))
