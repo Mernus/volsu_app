@@ -1,6 +1,7 @@
 from os import listdir
 from os.path import join
 from datetime import datetime
+from pathlib import Path
 from typing import List
 
 from django.core.files import File
@@ -8,7 +9,7 @@ from pytz import timezone as tz
 
 from django.utils import timezone
 
-from event_manager.settings import BASE_DIR, MINIO_TEST_IMAGES, TIME_ZONE
+from event_manager.settings import MINIO_TEST_IMAGES, TIME_ZONE
 from main.models import EVENT_STATUSES, User
 
 superuser = User.objects.filter(is_superuser=True).first()
@@ -22,12 +23,14 @@ EVENT_FILE_MAPPING = {
     'bchain': "events/blockchain/",
 }
 
+TEST_DIR = Path(__file__).absolute().parent
+
 
 def get_event_files(event_key: str) -> List['File']:
     if event_key not in EVENT_FILE_MAPPING:
         return []
 
-    event_dir = join(BASE_DIR, MINIO_TEST_IMAGES, EVENT_FILE_MAPPING[event_key])
+    event_dir = join(TEST_DIR, MINIO_TEST_IMAGES, EVENT_FILE_MAPPING[event_key])
     event_files = []
     for ev_file in listdir(event_dir):
         event_files.append(File(open(join(event_dir, ev_file), 'rb')))
