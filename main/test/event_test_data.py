@@ -32,8 +32,12 @@ def get_event_files(event_key: str) -> List['File']:
 
     event_dir = join(TEST_DIR, MINIO_TEST_IMAGES, EVENT_FILE_MAPPING[event_key])
     event_files = []
-    for ev_file in listdir(event_dir):
-        event_files.append(File(open(join(event_dir, ev_file), 'rb')))
+    try:
+        for ev_file in listdir(event_dir):
+            event_files.append(File(open(join(event_dir, ev_file), 'rb')))
+        return event_files
+    except FileNotFoundError:
+        return []
 
 
 event_01 = {
