@@ -35,7 +35,7 @@ services:
       - 6379:6379
 
   minio:
-    image: minio/minio:latest
+    image: mernus/minio:latest
     container_name: minio
     restart: always
     env_file:
