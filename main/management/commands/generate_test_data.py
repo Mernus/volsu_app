@@ -37,12 +37,13 @@ class Command(BaseCommand):
                 for event_kwargs in events:
                     files = event_kwargs.pop('event_files')
                     obj = Event.objects.create(**event_kwargs)
-                    created_obj = Event.objects.get(id=obj.id)
                     for file in files:
-                        EventFile.objects.create(event=created_obj, file=file)
+                        print(obj)
+                        print(file)
+                        EventFile.objects.create(event=obj, file=file)
 
                     ids_num = random.randint(1, 7)
-                    created_obj.tags.add(*random.sample(tag_ids, ids_num))
+                    obj.tags.add(*random.sample(tag_ids, ids_num))
 
             except Exception as exc:
                 _print(str(exc), string_code="err", path="generate_test_data")
