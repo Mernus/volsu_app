@@ -107,7 +107,8 @@ class Event(TimeStampedModel):
         return self.participants.all()[:4].values_list('profile_img', flat=True)
 
     def get_first_image_url(self) -> str:
-        return self.eventfile_set.first()
+        event_file = self.eventfile_set.first()
+        return event_file.file.url if event_file else None
 
     @cached_property
     def get_popular_tags_html(self) -> list[str]:
