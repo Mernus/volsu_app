@@ -37,7 +37,9 @@
                     <div class="row">
                         <div class="col-6">
                             {% if eventfile_set %}
-                                <img class="img-fluid rounded float-start" src="{{ eventfile_set|first }}">
+                                {% with file=eventfile_set|first  %}
+                                    <img class="img-fluid rounded float-start" src="{{ file.url }}">
+                                {% endwith %}
                             {% else %}
                                 <img class="img-fluid rounded float-start"
                                      src="{% static "main/event/images/no-image.jpg" %}">
