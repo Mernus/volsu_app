@@ -36,6 +36,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-6">
+                            {{ get_first_image_url }}
                             {% if get_first_image_url %}
                                 <img class="img-fluid rounded float-start" src="{{ get_first_image_url }}">
                             {% else %}
