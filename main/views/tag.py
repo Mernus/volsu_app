@@ -14,7 +14,7 @@ class TagPagination(BasePagination):
 
 class TagListViewSet(mixins.ListModelMixin, GenericViewSet):
     pagination_class = TagPagination
-    renderer_classes = [TemplateHTMLRenderer,]
+    renderer_classes = [TemplateHTMLRenderer, ]
     serializer_class = TagSerializer
     permission_classes = []
     queryset = Tag.objects.all()

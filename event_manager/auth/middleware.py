@@ -1,10 +1,12 @@
 from annoying.functions import get_object_or_None
+from rest_framework_simplejwt.exceptions import TokenError
 
 from django.shortcuts import redirect
 from django.utils.deprecation import MiddlewareMixin
 
 from event_manager.settings.security import LOGIN_URL, LOGOUT_URL, SIGNUP_URL
 from main.models import User
+from main.utils import verify_token
 
 NO_AUTH_URLS = [
     LOGIN_URL, SIGNUP_URL, LOGOUT_URL,
@@ -32,10 +34,17 @@ class TokenHeaderMiddleware(MiddlewareMixin):
         if user is None and user_id is not None:
             request.user = get_object_or_None(User, id=user_id)
 
-        if not user.is_authenticated:
+        verified = False
+        access_token = request.session.get('jwt_access')
+        try:
+            if access_token:
+                verify_token({'token': access_token})
+                request.META['HTTP_AUTHORIZATION'] = f"Bearer {access_token}"
+                verified = True
+        except TokenError:
+            pass
+
+        if not user.is_authenticated or not verified:
             return redirect(LOGIN_URL)
 
-        access_token = request.session.get('jwt_access')
-        if access_token:
-            request.META['HTTP_AUTHORIZATION'] = f"Bearer {access_token}"
         return None

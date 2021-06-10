@@ -78,6 +78,7 @@ class RegistrationSerializer(serializers.Serializer):
         login(self.request, user)
         token = user.get_token(data['password'], self.request)
         self.request.session['user_id'] = user.id
+        self.request.session['username'] = user.username
 
         return {
             'user': user,
@@ -131,6 +132,7 @@ class LoginSerializer(serializers.Serializer):
         login(self.request, user)
         token = user.get_token(password, self.request)
         self.request.session['user_id'] = user.id
+        self.request.session['username'] = user.username
 
         return {
             'user': user,

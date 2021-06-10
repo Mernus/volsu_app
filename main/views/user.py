@@ -26,7 +26,6 @@ class SettingsViewSet(mixins.RetrieveModelMixin,
 
     def retrieve(self, request, *args, **kwargs):
         response = super(SettingsViewSet, self).retrieve(request, *args, **kwargs)
-        # raise Exception(response.data['profile_img'])
 
         response.data['timezones'] = pytz.common_timezones
         response.template_name = 'user/settings.html'
