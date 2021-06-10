@@ -109,8 +109,6 @@ class Event(TimeStampedModel):
     @property
     def get_first_image_url(self) -> str:
         event_file = self.eventfile_set.first()
-        a = event_file.file.url if event_file else None
-        raise Exception(a)
         return event_file.file.url if event_file else None
 
     @cached_property
