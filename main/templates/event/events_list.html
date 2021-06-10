@@ -39,8 +39,8 @@
                         <div class="p-card bg-white p-2 rounded px-3">
                             <div class="d-flex align-items-center credits">
                                 <a href="/api/event/{{ event.slug }}">
-                                    {% if event.eventfile_set %}
-                                        <img class="img-fluid" src="{{ event.eventfile_set.0.url }}">
+                                    {% if event.get_first_image_url %}
+                                        <img class="img-fluid" src="{{ event.get_first_image_url }}">
                                     {% else %}
                                         <img class="img-fluid" src="{% static "main/event/images/no-image.jpg" %}">
                                     {% endif %}

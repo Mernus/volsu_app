@@ -36,8 +36,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-6">
-                            {% if eventfile_set %}
-                                <img class="img-fluid rounded float-start" src="{{ eventfile_set.0.url }}">
+                            {% if get_first_image_url %}
+                                <img class="img-fluid rounded float-start" src="{{ get_first_image_url }}">
                             {% else %}
                                 <img class="img-fluid rounded float-start"
                                      src="{% static "main/event/images/no-image.jpg" %}">
@@ -124,7 +124,7 @@
                                         <div class="carousel-inner">
                                             {% for image in eventfile_set %}
                                                 <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
-                                                    <img src="{{ image }}" class="d-block">
+                                                    <img src="{{ image.url }}" class="d-block">
                                                 </div>
                                             {% endfor %}
                                         </div>
