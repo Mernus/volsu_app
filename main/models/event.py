@@ -106,6 +106,7 @@ class Event(TimeStampedModel):
     def first_participants(self):
         return self.participants.all()[:4].values_list('profile_img', flat=True)
 
+    @property
     def get_first_image_url(self) -> str:
         event_file = self.eventfile_set.first()
         return event_file.file.url if event_file else None
