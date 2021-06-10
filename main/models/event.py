@@ -111,6 +111,10 @@ class Event(TimeStampedModel):
         event_file = self.eventfile_set.first()
         return event_file.file.url if event_file else None
 
+    @property
+    def get_files_url(self) -> list[str]:
+        return [event_file.file.url for event_file in self.eventfile_set.all() if event_file]
+
     @cached_property
     def get_popular_tags_html(self) -> list[str]:
         """
