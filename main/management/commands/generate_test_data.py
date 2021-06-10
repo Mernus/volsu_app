@@ -38,7 +38,7 @@ class Command(BaseCommand):
                     files = event_kwargs.pop('event_files')
                     obj = Event.objects.create(**event_kwargs)
                     for file in files:
-                        event_file = EventFile.objects.create(event__id=obj.id)
+                        event_file = EventFile.objects.create(event_id=obj.id)
                         event_file.file = file
                         event_file.save()
 
