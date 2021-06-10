@@ -40,9 +40,7 @@
                             <div class="d-flex align-items-center credits">
                                 <a href="/api/event/{{ event.slug }}">
                                     {% if event.eventfile_set %}
-                                        {% with file=event.eventfile_set|first  %}
-                                            <img class="img-fluid" src="{{ file.url }}">
-                                        {% endwith %}
+                                        <img class="img-fluid" src="{{ event.eventfile_set.0.url }}">
                                     {% else %}
                                         <img class="img-fluid" src="{% static "main/event/images/no-image.jpg" %}">
                                     {% endif %}
