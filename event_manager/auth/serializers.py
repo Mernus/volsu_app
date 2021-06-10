@@ -62,11 +62,18 @@ class RegistrationSerializer(serializers.Serializer):
                 "Not all parameters passed or some is not valid"
             )
 
-        existed_users = User.objects.filter(Q(username=username) | Q(email=email)).count()
+        existed_users = User.objects.filter(username=username).count()
         if existed_users > 0:
             self.request.session['username_errors'] = "User with this username is already exists"
             raise serializers.ValidationError(
                 "User with this username is already exists"
+            )
+
+        existed_users = User.objects.filter(email=email).count()
+        if existed_users > 0:
+            self.request.session['email_errors'] = "User with this email is already exists"
+            raise serializers.ValidationError(
+                "User with this email is already exists"
             )
 
         try:
