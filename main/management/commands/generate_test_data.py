@@ -38,8 +38,6 @@ class Command(BaseCommand):
                     files = event_kwargs.pop('event_files')
                     obj = Event.objects.create(**event_kwargs)
                     for file in files:
-                        print(obj)
-                        print(file)
                         EventFile.objects.create(event=obj, file=file)
 
                     ids_num = random.randint(1, 7)

@@ -1,7 +1,6 @@
 import re
 import uuid
 
-from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import m2m_changed
@@ -46,12 +45,12 @@ TRACKED_FIELDS = [
 ]
 
 
-def files_upload(instance: 'Event', filename: str):
+def files_upload(instance: 'EventFile', filename: str):
     """
     Return path for uploaded files to minio
 
     Args:
-        instance (Event): event instance
+        instance (EventFile): event instance
         filename (str): filename of the file
 
     Returns:
@@ -60,7 +59,7 @@ def files_upload(instance: 'Event', filename: str):
     match = re.search(r"\.[^.\\/:*?\"<>|\r\n]+$", filename)
     extension = match.group(0)
     result_filename = str(uuid.uuid4())
-    return f"events/{instance.slug}/files/{result_filename}{extension}"
+    return f"events/{instance.event.slug}/files/{result_filename}{extension}"
 
 
 class EventFile(TimeStampedModel):
