@@ -8,7 +8,6 @@ from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
 
-from django_cryptography.fields import encrypt
 from django_extensions.db.fields import AutoSlugField
 from django_extensions.db.models import TimeStampedModel
 from model_utils import Choices, FieldTracker
@@ -82,8 +81,8 @@ class Event(TimeStampedModel):
 
     title = models.CharField(verbose_name='Название события', validators=[title_validator],
                              max_length=100, unique=True)
-    description = encrypt(models.TextField(verbose_name='Описание события', max_length=450, null=True, default=None))
-    location = encrypt(models.CharField(verbose_name='Местоположение', max_length=300, null=True, default=None))
+    description = models.TextField(verbose_name='Описание события', max_length=450, null=True, default=None)
+    location = models.CharField(verbose_name='Местоположение', max_length=300, null=True, default=None)
     website = models.CharField(verbose_name='Официальный вебсайт', max_length=150, null=True)
     slug = AutoSlugField(populate_from=['author', 'title'])
     tags = models.ManyToManyField('Tag', blank=True, verbose_name='Теги события')
