@@ -37,9 +37,8 @@ class Command(BaseCommand):
                 files = event_kwargs.pop('event_files')
                 obj, created = Event.objects.get_or_create(**event_kwargs)
 
-                if EventFile.objects.filter(event_title=event_kwargs.get('title')).count() == 0:
-                    for file in files:
-                        EventFile.objects.create(event=obj, file=file)
+                for file in files:
+                    EventFile.objects.get_or_create(event=obj, file=file)
 
                 if created:
                     ids_num = random.randint(1, 7)
