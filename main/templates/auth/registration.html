@@ -33,6 +33,11 @@
         <form method="post">
             {% csrf_token %}
             <h1 style="margin-bottom: 0.5em">Sign Up</h1>
+            {{  username_errors }}
+            {{  user_creation_errors }}
+            {{  email_errors }}
+            {{  password_errors }}
+            {{  timezone_errors }}
             <div class="login-w3ls">
                 <div class="icons">
                     <label for="username">Username:</label>
