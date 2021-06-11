@@ -37,7 +37,7 @@ class Command(BaseCommand):
                 files = event_kwargs.pop('event_files')
                 obj, created = Event.objects.get_or_create(**event_kwargs)
 
-                if EventFile.objects.filter(event=obj).count() == 0:
+                if EventFile.objects.filter(event_id=obj.id).count() == 0:
                     for file in files:
                         EventFile.objects.create(event=obj, file=file)
 
