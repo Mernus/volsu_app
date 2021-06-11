@@ -9,7 +9,7 @@ from event_manager.settings import BASE_DIR, MINIO_TEST_IMAGES
 from event_manager.utils import colored_print as _print
 
 from main.models import Event, EventFile, Tag, User
-from main.test.event_test_data import events
+from main.test.event_test_data import events, event_titles
 from main.test.tag_test_data import tags
 
 
@@ -33,24 +33,26 @@ class Command(BaseCommand):
 
         _print("Running events creation.", string_code="info", path="generate_test_data")
 
-        # try:
-        for event_kwargs in events:
-            files = event_kwargs.pop('event_files')
-            obj = get_object_or_None(Event, title=event_kwargs['title'])
-            if obj is None:
-                obj = Event.objects.create(**event_kwargs)
+        try:
+            for index, event_kwargs in enumerate(events):
+                files = event_kwargs.pop('event_files')
+                title = event_titles[index]
 
-            if obj.eventfile_set.count() == 0:
-                for file in files:
-                    EventFile.objects.create(event=obj, file=file)
+                obj = get_object_or_None(Event, title=title)
+                if obj is None:
+                    obj = Event.objects.get_create(**event_kwargs)
 
-            if obj.tags.count() == 0:
-                ids_num = random.randint(1, 7)
-                obj.tags.add(*random.sample(tag_ids, ids_num))
+                if obj.eventfile_set.count() == 0:
+                    for file in files:
+                        EventFile.objects.create(event=obj, file=file)
 
-        # except Exception as exc:
-        #     _print(str(exc), string_code="err", path="generate_test_data")
-        #     _print("Event creation failed.", string_code="err", path="generate_test_data", critical=True)
+                if obj.tags.count() == 0:
+                    ids_num = random.randint(1, 7)
+                    obj.tags.add(*random.sample(tag_ids, ids_num))
+
+        except Exception as exc:
+            _print(str(exc), string_code="err", path="generate_test_data")
+            _print("Event creation failed.", string_code="err", path="generate_test_data", critical=True)
 
         _print("Events created.", string_code="success", path="generate_test_data")
 
