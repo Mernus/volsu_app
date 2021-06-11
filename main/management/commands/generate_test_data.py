@@ -36,7 +36,7 @@ class Command(BaseCommand):
         # try:
         for event_kwargs in events:
             files = event_kwargs.pop('event_files')
-            obj = get_object_or_None(Event, title=event_kwargs.get('title'))
+            obj = get_object_or_None(Event, title=event_kwargs['title'])
             if obj is None:
                 obj = Event.objects.create(**event_kwargs)
 
