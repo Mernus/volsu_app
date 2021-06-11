@@ -1,6 +1,7 @@
 import random
 from os.path import join
 
+from annoying.functions import get_object_or_None
 from django.core.files import File
 from django.core.management import BaseCommand
 
@@ -35,12 +36,15 @@ class Command(BaseCommand):
         # try:
         for event_kwargs in events:
             files = event_kwargs.pop('event_files')
-            obj, created = Event.objects.get_or_create(**event_kwargs)
+            obj = get_object_or_None(Event, title=event_kwargs.get('title'))
+            if obj is None:
+                obj = Event.objects.create(**event_kwargs)
 
-            for file in files:
-                EventFile.objects.get_or_create(event=obj, file=file)
+            if obj.eventfile_set.count() == 0:
+                for file in files:
+                    EventFile.objects.create(event=obj, file=file)
 
-            if created:
+            if obj.tags.count() == 0:
                 ids_num = random.randint(1, 7)
                 obj.tags.add(*random.sample(tag_ids, ids_num))
 
