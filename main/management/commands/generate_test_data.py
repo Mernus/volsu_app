@@ -11,6 +11,7 @@ from event_manager.utils import colored_print as _print
 from main.models import Event, EventFile, Tag, User
 from main.test.event_test_data import events
 from main.test.tag_test_data import tags
+from main.test.users_test_data import users
 
 
 class Command(BaseCommand):
@@ -65,8 +66,19 @@ class Command(BaseCommand):
         try:
             # Add image to superuser
             superuser = User.objects.filter(is_superuser=True).first()
-            profile_image = join(BASE_DIR, 'main/test', MINIO_TEST_IMAGES, 'users/superuser_image.jpg')
-            superuser.profile_img.save('superuser_image.jpg', File(open(profile_image, 'rb')))
+            su_profile_image = join(BASE_DIR, 'main/test', MINIO_TEST_IMAGES, 'users/superuser_image.jpg')
+            superuser.profile_img.save('superuser_image.jpg', File(open(su_profile_image, 'rb')))
+
+            for user_kwargs in users:
+                profile_image = user_kwargs.pop('profile_img')
+                username = user_kwargs.get('username')
+
+                obj = get_object_or_None(User, username=username)
+                if obj is None:
+                    obj = User.objects.create(**user_kwargs)
+
+                if not obj.profile_img:
+                    obj.profile_img.save(profile_image.get('filename'), profile_image.get('file'))
 
         except Exception as exc:
             _print(str(exc), string_code="err", path="generate_test_data")
