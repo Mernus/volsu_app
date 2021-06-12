@@ -105,7 +105,8 @@ class Event(SoftDeletableModel, TimeStampedModel):
     changes = FieldTracker(fields=TRACKED_FIELDS)  # Track changes in some fields
 
     def first_participants(self):
-        return self.participants.all()[:4].values_list('profile_img', flat=True)
+        return [user.profile_img.url for user in self.participants.exclude(profile_img__in=['', None])
+                                                     .values('profile_img')[:4]]
 
     @property
     def get_first_image_url(self) -> str:

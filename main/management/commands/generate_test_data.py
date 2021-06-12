@@ -73,7 +73,7 @@ class Command(BaseCommand):
                 if obj is None:
                     obj = Event.objects.create(**event_kwargs)
 
-                EventFile.objects.all().delete()
+                EventFile.objects.filter(event=obj).delete()
                 for file in files:
                     EventFile.objects.create(event=obj, file=file.get('file'), is_primary=file.get('is_primary'))
 
