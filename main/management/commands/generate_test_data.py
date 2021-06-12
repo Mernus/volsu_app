@@ -40,7 +40,7 @@ class Command(BaseCommand):
 
                 obj = get_object_or_None(Event, title=title)
                 if obj is None:
-                    obj = Event.objects.get_create(**event_kwargs)
+                    obj = Event.objects.create(**event_kwargs)
 
                 if obj.eventfile_set.count() == 0:
                     for file in files:
