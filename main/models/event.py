@@ -67,7 +67,6 @@ class EventFile(TimeStampedModel):
         verbose_name = 'Файл события'
         verbose_name_plural = 'Файлы события'
         ordering = ['event']
-        unique_together = ['event', 'is_primary']
 
     event = models.ForeignKey('Event', on_delete=models.CASCADE, verbose_name='Cобытие')
     file = models.FileField(upload_to=files_upload, verbose_name='Файл', null=True)
