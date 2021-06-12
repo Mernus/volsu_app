@@ -47,7 +47,7 @@ class Command(BaseCommand):
                         EventFile.objects.create(event=obj, file=file)
 
                 if obj.tags.count() == 0:
-                    ids_num = random.randint(1, 7)
+                    ids_num = random.randint(1, 5)
                     obj.tags.add(*random.sample(tag_ids, ids_num))
 
         except Exception as exc:
