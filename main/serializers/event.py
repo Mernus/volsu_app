@@ -42,12 +42,13 @@ class ListEventSerializer(serializers.ModelSerializer):
     author_fullname = serializers.StringRelatedField(source='author', read_only=True)
     author_image = serializers.ImageField(source='author.profile_img', read_only=True)
     first_image = serializers.CharField(source='get_first_image_url', read_only=True)
+    participants_number = serializers.ReadOnlyField(source='participants.count', read_only=True)
 
     class Meta:
         model = Event
         fields = [
             "title", "description", "get_popular_tags_html",
-            "start_date", "end_date", "slug",
+            "start_date", "end_date", "slug", "participants_number",
             "eventfile_set", "status_name", "author_image",
             "first_participants", "author_fullname", "first_image"
         ]
