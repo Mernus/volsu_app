@@ -36,6 +36,33 @@ class Command(BaseCommand):
 
         _print("Tags created.", string_code="success", path="generate_test_data")
 
+        _print("Running user creation.", string_code="info", path="generate_test_data")
+
+        user_ids = []
+        try:
+            # Add image to superuser
+            superuser = User.objects.filter(is_superuser=True).first()
+            su_profile_image = join(BASE_DIR, 'main/test', MINIO_TEST_IMAGES, 'users/superuser_image.jpg')
+            superuser.profile_img.save('superuser_image.jpg', File(open(su_profile_image, 'rb')))
+
+            for user_kwargs in users:
+                profile_image = user_kwargs.pop('profile_img')
+                username = user_kwargs.get('username')
+
+                obj = get_object_or_None(User, username=username)
+                if obj is None:
+                    obj = User.objects.create(**user_kwargs)
+
+                if not obj.profile_img:
+                    obj.profile_img.save(profile_image.get('filename'), profile_image.get('file'))
+
+                user_ids.append(obj.id)
+        except Exception as exc:
+            _print(str(exc), string_code="err", path="generate_test_data")
+            _print("User creation failed.", string_code="err", path="generate_test_data", critical=True)
+
+        _print("User created.", string_code="success", path="generate_test_data")
+
         _print("Running events creation.", string_code="info", path="generate_test_data")
 
         try:
@@ -55,33 +82,12 @@ class Command(BaseCommand):
                     ids_num = random.randint(1, 7)
                     obj.tags.add(*random.sample(tag_ids, ids_num))
 
+                if obj.participants.count() == 0:
+                    ids_num = random.randint(1, 4)
+                    obj.participants.add(*random.sample(user_ids, ids_num))
+
         except Exception as exc:
             _print(str(exc), string_code="err", path="generate_test_data")
             _print("Event creation failed.", string_code="err", path="generate_test_data", critical=True)
 
         _print("Events created.", string_code="success", path="generate_test_data")
-
-        _print("Running user creation.", string_code="info", path="generate_test_data")
-
-        try:
-            # Add image to superuser
-            superuser = User.objects.filter(is_superuser=True).first()
-            su_profile_image = join(BASE_DIR, 'main/test', MINIO_TEST_IMAGES, 'users/superuser_image.jpg')
-            superuser.profile_img.save('superuser_image.jpg', File(open(su_profile_image, 'rb')))
-
-            for user_kwargs in users:
-                profile_image = user_kwargs.pop('profile_img')
-                username = user_kwargs.get('username')
-
-                obj = get_object_or_None(User, username=username)
-                if obj is None:
-                    obj = User.objects.create(**user_kwargs)
-
-                if not obj.profile_img:
-                    obj.profile_img.save(profile_image.get('filename'), profile_image.get('file'))
-
-        except Exception as exc:
-            _print(str(exc), string_code="err", path="generate_test_data")
-            _print("User creation failed.", string_code="err", path="generate_test_data", critical=True)
-
-        _print("User created.", string_code="success", path="generate_test_data")
