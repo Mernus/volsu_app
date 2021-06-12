@@ -31,14 +31,14 @@ def get_event_files(event_key: str) -> List[Dict[str, Union['File', bool]]]:
         return []
 
     event_dir = join(TEST_DIR, MINIO_TEST_IMAGES, EVENT_FILE_MAPPING[event_key])
-    event_files = []
+    event_files, is_primary = [], True
     try:
         for ev_file in listdir(event_dir):
-            is_primary = len(event_files) == 0
             event_files.append({
                 'file': File(open(join(event_dir, ev_file), 'rb')),
                 'is_primary': is_primary
             })
+            is_primary = False
         return event_files
     except FileNotFoundError:
         return []
