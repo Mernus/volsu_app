@@ -26,7 +26,7 @@ class Command(BaseCommand):
 
                 obj = get_object_or_None(Tag, title=title)
                 if obj is None:
-                    obj = Tag.objects.get_or_create(**tag_kwargs)
+                    obj = Tag.objects.create(**tag_kwargs)
 
                 tag_ids.append(obj.id)
         except Exception as exc:
@@ -38,7 +38,7 @@ class Command(BaseCommand):
         _print("Running events creation.", string_code="info", path="generate_test_data")
 
         try:
-            for index, event_kwargs in enumerate(events):
+            for event_kwargs in events:
                 files = event_kwargs.pop('event_files')
                 title = event_kwargs.get('title')
 
