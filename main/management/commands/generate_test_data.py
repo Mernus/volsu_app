@@ -33,26 +33,26 @@ class Command(BaseCommand):
 
         _print("Running events creation.", string_code="info", path="generate_test_data")
 
-        try:
-            for index, event_kwargs in enumerate(events):
-                files = event_kwargs.pop('event_files')
-                title = event_kwargs.get('title')
+        # try:
+        for index, event_kwargs in enumerate(events):
+            files = event_kwargs.pop('event_files')
+            title = event_kwargs.get('title')
 
-                obj = get_object_or_None(Event, title=title)
-                if obj is None:
-                    obj = Event.objects.create(**event_kwargs)
+            obj = get_object_or_None(Event, title=title)
+            if obj is None:
+                obj = Event.objects.create(**event_kwargs)
 
-                if obj.eventfile_set.count() == 0:
-                    for file in files:
-                        EventFile.objects.create(event=obj, file=file)
+            if obj.eventfile_set.count() == 0:
+                for file in files:
+                    EventFile.objects.create(event=obj, file=file)
 
-                if obj.tags.count() == 0:
-                    ids_num = random.randint(1, 5)
-                    obj.tags.add(*random.sample(tag_ids, ids_num))
+            if obj.tags.count() == 0:
+                ids_num = random.randint(1, 7)
+                obj.tags.add(*random.sample(tag_ids, ids_num))
 
-        except Exception as exc:
-            _print(str(exc), string_code="err", path="generate_test_data")
-            _print("Event creation failed.", string_code="err", path="generate_test_data", critical=True)
+        # except Exception as exc:
+        #     _print(str(exc), string_code="err", path="generate_test_data")
+        #     _print("Event creation failed.", string_code="err", path="generate_test_data", critical=True)
 
         _print("Events created.", string_code="success", path="generate_test_data")
 
