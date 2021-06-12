@@ -43,7 +43,7 @@
                                      src="{% static "main/event/images/no-image.jpg" %}">
                             {% endif %}
                         </div>
-                        <div class="col mt-3" style="margin-left: 2%;">
+                        <div class="col mt-2" style="margin-left: 2%;">
                             <div class="header">
                                 <h5>Title:</h5>
                                 <h5>{{ title|truncatechars:35 }}</h5>
@@ -83,6 +83,8 @@
                             </div>
                             {% if request.user not in participants %}
                                 <button type="submit" class="custombtn">Register</button>
+                            {% else %}
+                                <button type="submit" class="custombtn" disabled style="color: #4abb48 !important;">Successfuly registred</button>
                             {% endif %} 
                         </div>
                     </div>

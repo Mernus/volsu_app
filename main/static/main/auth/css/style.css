@@ -70,12 +70,12 @@ input[name="password"]:hover, input[name="username"]:hover {
 .custombtn {
     font-family: 'Poiret One', cursive;
     font-weight: 900;
-    width: 100%;
+    width: 80%;
     outline: none;
     color: #000;
-    font-size: 18px;
+    font-size: 1.4rem;
     border: 1px solid #1d1b31;
-    padding: 11px;
+    padding: 7px;
     letter-spacing: 1px;
     border-radius: 5px;
     cursor: pointer;

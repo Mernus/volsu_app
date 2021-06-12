@@ -106,7 +106,7 @@ class Event(SoftDeletableModel, TimeStampedModel):
 
     def first_participants(self):
         return [user.profile_img.url for user in self.participants.exclude(profile_img__in=['', None])
-                                                     .values('profile_img')[:4]]
+                                                     .values('profile_img').all()[:4]]
 
     @property
     def get_first_image_url(self) -> str:
