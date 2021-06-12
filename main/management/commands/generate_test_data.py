@@ -13,13 +13,6 @@ from main.test.event_test_data import events
 from main.test.tag_test_data import tags
 
 
-EVENT_TITLES = [
-    "JetBrains .NET Days Online 2021", "PyCon US 2021",
-    "DevOps Pro Europe 2021", "AGILE100", "GlueCon 2021",
-    "Blockchain Economy 2021"
-]
-
-
 class Command(BaseCommand):
     help = "Generate some tests data for project"
 
@@ -43,7 +36,7 @@ class Command(BaseCommand):
         try:
             for index, event_kwargs in enumerate(events):
                 files = event_kwargs.pop('event_files')
-                title = EVENT_TITLES[index]
+                title = event_kwargs.get('title')
 
                 obj = get_object_or_None(Event, title=title)
                 if obj is None:

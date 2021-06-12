@@ -4,7 +4,8 @@ django-annoying==0.10.6
 django-colorfield==0.4.1
 django-cryptography==1.0
 django-extensions==3.1.0
-django-model-utils==4.1.1
+# django-model-utils
+git+https://github.com/jazzband/django-model-utils.git@master#egg=django-model-utils
 django-minio-storage==0.3.10
 django-redis==4.12.1
 django-redis-sessions==0.6.2
