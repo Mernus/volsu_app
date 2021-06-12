@@ -60,7 +60,7 @@ class RegistrationSerializer(serializers.Serializer):
         if username is None or password is None or timezone is None or email is None:
             raise serializers.ValidationError("Not all parameters passed or some is not valid")
 
-        existed_users = User.objects.filter(Q(username=username) | Q(email=email)).cache()
+        existed_users = User.objects.filter(Q(username=username) | Q(email=email))
         username_match = existed_users.filter(username=username).count()
         if username_match > 0:
             self.request.session['username_errors'] = "User with this username is already exists"
