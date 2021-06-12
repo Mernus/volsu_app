@@ -53,3 +53,29 @@
 .col {
     text-align: center;
 }
+
+.custombtn {
+    font-family: 'Poiret One', cursive;
+    font-weight: 900;
+    width: 100%;
+    outline: none;
+    color: #000;
+    font-size: 18px;
+    border: 1px solid #1d1b31;
+    padding: 11px;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+    margin-bottom: 15px;
+}
+
+.custombtn:hover {
+    color: #09aa53;
+    border: 1px solid #09aa53;
+    background: white;
+}

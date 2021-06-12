@@ -81,6 +81,9 @@
                                 <h5>Start date: {{ start_date_aware }};</h5>
                                 <h5>End date: {{ end_date_aware }};</h5>
                             </div>
+                            {% if request.user not in participants %}
+                                <button type="submit" class="custombtn">Register</button>
+                            {% endif %} 
                         </div>
                     </div>
                     <div class="row mt-4">
@@ -173,7 +176,7 @@
                                             <div class="row flex-row flex-nowrap text-center">
                                                 <div class="scrollable col-sm-4 mb-5">
                                                     <div class="bg-white rounded shadow-sm py-5 px-4"><img
-                                                            src="{{ user.profile_img }}"
+                                                            src="{{ user.profile_img.url }}"
                                                             alt="" width="100"
                                                             class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
                                                         <h5 class="mb-0">{{ user.username }}</h5>
