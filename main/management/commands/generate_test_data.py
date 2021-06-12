@@ -22,7 +22,12 @@ class Command(BaseCommand):
         tag_ids = []
         try:
             for tag_kwargs in tags:
-                obj = Tag.objects.get_or_create(**tag_kwargs)
+                title = tag_kwargs.get('title')
+
+                obj = get_object_or_None(Tag, title=title)
+                if obj is None:
+                    obj = Tag.objects.get_or_create(**tag_kwargs)
+
                 tag_ids.append(obj.id)
         except Exception as exc:
             _print(str(exc), string_code="err", path="generate_test_data")
