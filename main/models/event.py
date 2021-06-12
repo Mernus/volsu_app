@@ -12,6 +12,7 @@ from django_extensions.db.fields import AutoSlugField
 from django_extensions.db.models import TimeStampedModel
 from model_utils import Choices, FieldTracker
 from model_utils.managers import QueryManager
+from model_utils.models import SoftDeletableModel
 
 from event_manager.utils import clear_cached_properties
 from main.utils import render_tags
@@ -71,7 +72,7 @@ class EventFile(TimeStampedModel):
     file = models.FileField(upload_to=files_upload, verbose_name='Файл', null=True)
 
 
-class Event(TimeStampedModel):
+class Event(SoftDeletableModel, TimeStampedModel):
     class Meta:
         verbose_name = 'Событие'
         verbose_name_plural = 'События'
