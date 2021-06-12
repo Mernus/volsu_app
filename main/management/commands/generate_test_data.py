@@ -53,10 +53,9 @@ class Command(BaseCommand):
                 if obj is None:
                     obj = User.objects.create(**user_kwargs)
 
-                if not obj.profile_img:
-                    obj.profile_img.save(profile_image.get('filename'), profile_image.get('file'))
-
+                obj.profile_img.save(profile_image.get('filename'), profile_image.get('file'))
                 user_ids.append(obj.id)
+
         except Exception as exc:
             _print(str(exc), string_code="err", path="generate_test_data")
             _print("User creation failed.", string_code="err", path="generate_test_data", critical=True)
@@ -74,9 +73,9 @@ class Command(BaseCommand):
                 if obj is None:
                     obj = Event.objects.create(**event_kwargs)
 
-                if obj.eventfile_set.count() == 0:
-                    for file in files:
-                        EventFile.objects.create(event=obj, file=file.get('file'), is_primary=file.get('is_primary'))
+                EventFile.objects.all().delete()
+                for file in files:
+                    EventFile.objects.create(event=obj, file=file.get('file'), is_primary=file.get('is_primary'))
 
                 if obj.tags.count() == 0:
                     ids_num = random.randint(1, 7)
