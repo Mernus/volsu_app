@@ -2,7 +2,7 @@ from os import listdir
 from os.path import join
 from datetime import datetime
 from pathlib import Path
-from typing import List
+from typing import Dict, List, Union
 
 from django.core.files import File
 from pytz import timezone as tz
@@ -26,7 +26,7 @@ EVENT_FILE_MAPPING = {
 TEST_DIR = Path(__file__).absolute().parent
 
 
-def get_event_files(event_key: str) -> List['File']:
+def get_event_files(event_key: str) -> List[Dict[str, Union['File', bool]]]:
     if event_key not in EVENT_FILE_MAPPING:
         return []
 
@@ -34,7 +34,11 @@ def get_event_files(event_key: str) -> List['File']:
     event_files = []
     try:
         for ev_file in listdir(event_dir):
-            event_files.append(File(open(join(event_dir, ev_file), 'rb')))
+            is_primary = len(event_files) == 0
+            event_files.append({
+                'file': File(open(join(event_dir, ev_file), 'rb')),
+                'is_primary': is_primary
+            })
         return event_files
     except FileNotFoundError:
         return []

@@ -67,9 +67,11 @@ class EventFile(TimeStampedModel):
         verbose_name = 'Файл события'
         verbose_name_plural = 'Файлы события'
         ordering = ['event']
+        unique_together = ['event', 'is_primary']
 
     event = models.ForeignKey('Event', on_delete=models.CASCADE, verbose_name='Cобытие')
     file = models.FileField(upload_to=files_upload, verbose_name='Файл', null=True)
+    is_primary = models.BooleanField(verbose_name='Обложка события', default=False)
 
 
 class Event(SoftDeletableModel, TimeStampedModel):
@@ -108,12 +110,12 @@ class Event(SoftDeletableModel, TimeStampedModel):
 
     @property
     def get_first_image_url(self) -> str:
-        event_file = self.eventfile_set.first()
+        event_file = self.eventfile_set.filter(is_primary=True).first()
         return event_file.file.url if event_file else None
 
     @property
     def get_files_url(self) -> list[str]:
-        return [event_file.file.url for event_file in self.eventfile_set.all() if event_file]
+        return [event_file.file.url for event_file in self.eventfile_set.filter(is_primary=False) if event_file]
 
     @cached_property
     def get_popular_tags_html(self) -> list[str]:
