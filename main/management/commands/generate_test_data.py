@@ -9,8 +9,15 @@ from event_manager.settings import BASE_DIR, MINIO_TEST_IMAGES
 from event_manager.utils import colored_print as _print
 
 from main.models import Event, EventFile, Tag, User
-from main.test.event_test_data import events, event_titles
+from main.test.event_test_data import events
 from main.test.tag_test_data import tags
+
+
+EVENT_TITLES = [
+    "JetBrains .NET Days Online 2021", "PyCon US 2021",
+    "DevOps Pro Europe 2021", "AGILE100", "GlueCon 2021",
+    "Blockchain Economy 2021"
+]
 
 
 class Command(BaseCommand):
@@ -36,7 +43,7 @@ class Command(BaseCommand):
         try:
             for index, event_kwargs in enumerate(events):
                 files = event_kwargs.pop('event_files')
-                title = event_titles[index]
+                title = EVENT_TITLES[index]
 
                 obj = get_object_or_None(Event, title=title)
                 if obj is None:

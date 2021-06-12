@@ -166,4 +166,3 @@ event_06 = {
 }
 
 events = [event_01, event_02, event_03, event_04, event_05, event_06]
-event_titles = ["JetBrains .NET Days Online 2021", "PyCon US 2021", "DevOps Pro Europe 2021", "AGILE100", "GlueCon 2021", "Blockchain Economy 2021"]
