@@ -53,4 +53,4 @@ class ListEventSerializer(serializers.ModelSerializer):
             "first_participants", "author_fullname", "first_image"
         ]
 
-        read_only_fields = ["first_image"]
+        read_only_fields = ["first_image", "participants_number"]

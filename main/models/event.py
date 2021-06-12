@@ -1,5 +1,6 @@
 import re
 import uuid
+from typing import List
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -104,7 +105,7 @@ class Event(SoftDeletableModel, TimeStampedModel):
     public_objects = QueryManager(author__isnull=False, status__in=[1, 2, 3])
     changes = FieldTracker(fields=TRACKED_FIELDS)  # Track changes in some fields
 
-    def first_participants(self):
+    def first_participants(self) -> List[str]:
         return [user.profile_img.url for user in self.participants.all()[:4]]
 
     @property
@@ -113,11 +114,11 @@ class Event(SoftDeletableModel, TimeStampedModel):
         return event_file.file.url if event_file else None
 
     @property
-    def get_files_url(self) -> list[str]:
+    def get_files_url(self) -> List[str]:
         return [event_file.file.url for event_file in self.eventfile_set.filter(is_primary=False) if event_file]
 
     @cached_property
-    def get_popular_tags_html(self) -> list[str]:
+    def get_popular_tags_html(self) -> List[str]:
         """
         Cached class property that calculates 5 most popular Tags form this event.
 
@@ -128,7 +129,7 @@ class Event(SoftDeletableModel, TimeStampedModel):
         return render_tags(sorted_tags)
 
     @cached_property
-    def get_tags_html(self) -> list[str]:
+    def get_tags_html(self) -> List[str]:
         """
         Cached class property that calculates most popular Tags form this event.
 
