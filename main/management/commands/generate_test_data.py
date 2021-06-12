@@ -48,7 +48,7 @@ class Command(BaseCommand):
 
                 if obj.eventfile_set.count() == 0:
                     for file in files:
-                        EventFile.objects.create(event=obj, file=file.get('file'), is_primary=files.get('is_primary'))
+                        EventFile.objects.create(event=obj, file=file.get('file'), is_primary=file.get('is_primary'))
 
                 if obj.tags.count() == 0:
                     ids_num = random.randint(1, 7)
