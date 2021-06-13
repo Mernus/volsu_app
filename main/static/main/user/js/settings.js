@@ -39,40 +39,39 @@ $(function () {
     return true;
   };
 
+  // If password is invalid
+  const reportInvalidPassword = () => {
+    setTimeout(function () {
+        $('#updatePasswordButton').html('Update password');
+      }, 100);
+  };
+
   // Validate all passwords
   function validatePassword() {
-    let validationPassed = true;
-
     let oldPassword = $(".old_pass");
     if (!checkPassword(oldPassword)) {
-      validationPassed = false;
+      reportInvalidPassword();
     }
 
     let newPassword = $(".new_pass");
     if (!checkPassword(newPassword)) {
-      validationPassed = false;
+      reportInvalidPassword();
     }
 
     let confirmPassword = $(".confirm_pass");
     if (!checkPassword(confirmPassword)) {
-      validationPassed = false;
+      reportInvalidPassword();
     }
 
     if (!checkPasswordEquality(newPassword, oldPassword, true)) {
-      validationPassed = false;
+      reportInvalidPassword();
     }
 
     if (!checkPasswordEquality(newPassword, confirmPassword, false)) {
-      validationPassed = false;
+      reportInvalidPassword();
     }
 
-    if (validationPassed) {
-      setTimeout(updatePassword, 1000);
-    } else {
-      setTimeout(function () {
-        $('#updatePasswordButton').html('Update password');
-      }, 100);
-    }
+    setTimeout(updatePassword, 1000);
   }
 
   // Send ajax password update
@@ -126,6 +125,13 @@ $(function () {
     }, 100);
   }
 });
+
+// If settings is invalid
+  const reportInvalidSettings = () => {
+    setTimeout(function () {
+          $('#updateButton').html('Update');
+      }, 100);
+  };
 
 // Update settings
 $(function () {
@@ -226,14 +232,13 @@ $(function () {
     };
 
     function validateSettings() {
-      let validationPassed = true;
       let request_data = {}
 
       let username = $(".username");
       let currentUsername = $('.username').first().attr('placeholder');
       if (currentUsername !== username.first().val()) {
         if (!checkUsername(username)) {
-          validationPassed = false;
+          reportInvalidSettings();
         } else if (username.first().val() !== "") {
           request_data['username'] = username.first().val();
         }
@@ -249,7 +254,7 @@ $(function () {
       let currentFullname = $('.fullname').first().attr('placeholder');
       if (currentFullname !== fullname.first().val()) {
         if (!checkFullname(fullname)) {
-          validationPassed = false;
+          reportInvalidSettings();
         } else if (fullname.first().val() !== "") {
           request_data['fullname'] = fullname.first().val();
         }
@@ -260,7 +265,7 @@ $(function () {
         let currentOrg = $('.org').first().attr('placeholder');
         if (currentOrg !== org.first().val()) {
           if (!checkOrg(org)) {
-            validationPassed = false;
+            reportInvalidSettings();
           } else if (org.first().val() !== "") {
             request_data['organization'] = org.first().val();
           }
@@ -271,20 +276,18 @@ $(function () {
       let currentEmail = $('.email').first().attr('placeholder');
       if (currentEmail !== email.first().val()) {
         if (!checkEmail(email)) {
-          validationPassed = false;
+          reportInvalidSettings();
         } else if (email.first().val() !== "") {
           request_data['email'] = email.first().val();
         }
       }
 
-      if (validationPassed && Object.keys(request_data).length !== 0) {
+      if (Object.keys(request_data).length !== 0) {
         setTimeout(function () {
           updateSettings(request_data);
         }, 1000);
       } else {
-        setTimeout(function () {
-          $('#updateButton').html('Update');
-        }, 100);
+        reportInvalidSettings();
       }
     }
 
