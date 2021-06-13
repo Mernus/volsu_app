@@ -178,10 +178,20 @@
                                 {% if participants %}
                                     {% for user in participants %}
                                         <div class="container card">
-                                            <img src="{{ user.image }}" alt="" width="90" height="90" class="img-fluid rounded-circle mb-3 shadow-sm">
-                                            <h2>{{ user.username }}</h2>
-                                            <p class="title">{{ user.organization }}</p>
-                                            <p class="mb-4">{{ user.level_name }}</p>
+                                            {% if user.image %}
+                                                <img src="{{ user.image }}" alt="User Image"
+                                                 class="img-fluid rounded-circle mb-3 shadow-sm">
+                                            {% else %}
+                                                <img src="{% static "main/anonymous_user.png" %}" alt="User Image"
+                                                 class="img-fluid rounded-circle mb-3 shadow-sm">
+                                            {% endif %}
+                                            <h2>{{ user.username|truncatechars:8 }}</h2>
+                                            <p class="title">{{ user.organization|default_if_none:""|truncatechars:15 }}</p>
+                                            <p class="mb-4">
+                                                {% if user.level_name != "User" %}
+                                                    {{ user.level_name }}
+                                                {% endif %}
+                                            </p>
                                             <button class="contact">Contact</button>
                                         </div>
                                     {% endfor %}

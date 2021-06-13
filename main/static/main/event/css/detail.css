@@ -84,31 +84,42 @@
 }
 
 .card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 300px;
-  margin: auto;
-  text-align: center;
-  font-family: arial;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    margin-right: 30px !important;
+    border-radius: .5rem !important;
 }
 
 .title {
-  color: grey;
-  font-size: 1rem;
+    color: grey;
+    font-size: 1rem;
 }
 
 .contact {
-  border: none;
-  outline: 0;
-  display: inline-block;
-  padding: 8px;
-  color: white;
-  background-color: #000;
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
-  font-size: 18px;
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #11101d;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+    margin-bottom: 20px;
+    border-radius: 10px;
 }
 
 .contact:hover, a:hover {
-  opacity: 0.7;
+    opacity: 0.7;
+}
+
+img.img-fluid.rounded-circle.mb-3.shadow-sm {
+    width: 90px;
+    height: 90px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
 }
