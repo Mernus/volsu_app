@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from main.models import EVENT_STATUSES, Event
-from main.serializers import EventUserSerializer
+from main.serializers.user import EventUserSerializer
 from main.serializers.mixins import DateTimeFieldWihTZ
 
 
