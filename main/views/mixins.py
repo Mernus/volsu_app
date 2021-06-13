@@ -22,6 +22,7 @@ class MultiSerializerViewSetMixin(object):
             return super(MultiSerializerViewSetMixin, self).get_serializer_class()
 
 
+# TODO docs
 class BaseSessionPopMixin:
     serializer_errors = []
 

@@ -9,6 +9,7 @@ from main.models import USER_LEVELS, User
 
 superuser = User.objects.filter(is_superuser=True).first()
 
+# Mapping to directories with test images
 USER_PROFILE_MAPPING = {
     'test1': "users/test1/profile_img.jpeg",
     'test2': "users/test2/profile_img.jpg",
@@ -16,9 +17,11 @@ USER_PROFILE_MAPPING = {
     'test4': "users/test4/profile_img.png",
 }
 
+# Directory with test data
 TEST_DIR = Path(__file__).absolute().parent
 
 
+# TODO docs
 def get_user_profile_img(username: str) -> Optional[Dict[str, Union[str, 'File']]]:
     if username not in USER_PROFILE_MAPPING:
         return None

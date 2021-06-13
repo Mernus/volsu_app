@@ -6,6 +6,7 @@ from django.core.management import call_command, BaseCommand
 from event_manager.utils import colored_print as _print
 
 
+# TODO docs
 class Command(BaseCommand):
     help = "Runs base Django commands for project preparation"
 

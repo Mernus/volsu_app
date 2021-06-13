@@ -9,26 +9,34 @@ DEBUG = bool(int(os.getenv('DJANGO_DEBUG', 0)))
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
 
 INSTALLED_APPS = [
+    # Another modules
     'admin_interface',
     'colorfield',
+
+    # Django modules
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Main App
     'main.apps.MainConfig',
+
+    # Another modules
     'django_extensions',
     'rest_framework',
     'timezone_field',
     'minio_storage',
 ]
 
+# Database
 DATABASES = {}
 DATABASE_URL = os.getenv('DATABASE_URL')
 DATABASES['default'] = dj_database_url.config(ssl_require=True, conn_max_age=600)
 
-
+# Middlewares
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -41,6 +49,7 @@ MIDDLEWARE = [
     'event_manager.auth.middleware.TokenHeaderMiddleware',
 ]
 
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

@@ -1,7 +1,6 @@
-# https://github.com/encode/django-rest-framework/issues/4632
 from event_manager.auth import serializers
 
-
+# https://github.com/encode/django-rest-framework/issues/4632
 class MultiSerializerViewSetMixin(object):
     def get_serializer_class(self):
         """

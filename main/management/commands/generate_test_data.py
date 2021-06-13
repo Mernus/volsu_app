@@ -14,6 +14,7 @@ from main.test.tag_test_data import tags
 from main.test.users_test_data import users
 
 
+# TODO docs
 class Command(BaseCommand):
     help = "Generate some tests data for project"
 

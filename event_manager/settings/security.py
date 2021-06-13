@@ -3,6 +3,7 @@ import os
 
 from cryptography.hazmat.primitives.hashes import SHA3_256
 
+# RestFramework settings
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -16,6 +17,7 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%d.%m.%Y %H:%M",
 }
 
+# Auth URLs
 LOGIN_URL = "/login/"
 SIGNUP_URL = "/signup/"
 LOGOUT_URL = "/logout/"
@@ -32,5 +34,5 @@ SIMPLE_JWT = {
     'VERIFYING_KEY': open(VERIFYING_KEY_FILE).read(),
 }
 
-# Cryptography
+# Cryptography method
 CRYPTOGRAPHY_DIGEST = SHA3_256

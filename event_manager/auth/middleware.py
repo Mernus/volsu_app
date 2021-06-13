@@ -20,6 +20,7 @@ REQUIRED_AUTH_URLS = [
 ]
 
 
+# TODO docs
 class TokenHeaderMiddleware(MiddlewareMixin):
     def process_request(self, request):
         uri = request.META['REQUEST_URI']

@@ -55,5 +55,7 @@ class ListEventSerializer(serializers.ModelSerializer):
 
         read_only_fields = ["first_image", "participants_number"]
 
-    def get_participants_number(self, obj):
+    # TODO docs
+    def get_participants_number(self, obj) -> int:
+        raise Exception(str(obj) + "\n" + str(obj.participants.all()))
         return obj.participants.all().count()

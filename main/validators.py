@@ -45,6 +45,7 @@ class BaseFieldValidator:
         if blacklist_str:
             self.blacklist_str = blacklist_str
 
+    # TODO docs
     def __call__(self, value):
         value = force_str(value)
         blacklist_str = self.blacklist_str

@@ -19,6 +19,7 @@ class EventListViewSet(mixins.ListModelMixin, GenericViewSet):
     serializer_class = ListEventSerializer
     permission_classes = []
 
+    # TODO Move to base class
     def get_queryset(self):
         current_user = self.request.user
         if current_user.is_authenticated:
@@ -49,6 +50,7 @@ class EventDetailViewSet(mixins.RetrieveModelMixin,
     permission_classes = []
     lookup_field = 'slug'
 
+    # TODO Move to base class
     def get_queryset(self):
         current_user = self.request.user
         if current_user.is_authenticated:

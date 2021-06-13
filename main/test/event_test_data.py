@@ -14,6 +14,7 @@ from main.models import EVENT_STATUSES, User
 
 superuser = User.objects.filter(is_superuser=True).first()
 
+# Mapping to directories with test images
 EVENT_FILE_MAPPING = {
     'jbrains': "events/jetbrains/",
     'pycon': "events/pycon/",
@@ -23,9 +24,11 @@ EVENT_FILE_MAPPING = {
     'bchain': "events/blockchain/",
 }
 
+# Directory with test data
 TEST_DIR = Path(__file__).absolute().parent
 
 
+# TODO docs
 def get_event_files(event_key: str) -> List[Dict[str, Union['File', bool]]]:
     if event_key not in EVENT_FILE_MAPPING:
         return []

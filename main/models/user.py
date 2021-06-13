@@ -102,9 +102,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         if self.level is USER_LEVELS.ORGANIZER and not self.organization:
             self.organization = 'No organization'
 
+    # TODO docs
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
+    # TODO docs
     def get_full_name(self):
         fullname = self.username
         if self.organization:
@@ -112,6 +114,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         return fullname
 
+    # TODO docs
     def get_short_name(self):
         return self.username
 

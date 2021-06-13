@@ -7,6 +7,7 @@ REDIS_URL = os.getenv('STACKHERO_REDIS_URL_TLS')
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
 
+# Redis cache settings
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",

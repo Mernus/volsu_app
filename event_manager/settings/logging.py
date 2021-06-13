@@ -1,6 +1,7 @@
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
+# Logging settings
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -36,6 +37,7 @@ LOGGING = {
 
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
+# Init Sentry
 sentry_sdk.init(
     dsn="https://3e1a5a0ac3a7417e9efae0653b1ace62@o787779.ingest.sentry.io/5799749",
     integrations=[DjangoIntegration()],

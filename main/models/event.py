@@ -105,14 +105,17 @@ class Event(SoftDeletableModel, TimeStampedModel):
     public_objects = QueryManager(author__isnull=False, status__in=[1, 2, 3])
     changes = FieldTracker(fields=TRACKED_FIELDS)  # Track changes in some fields
 
+    # TODO docs
     def first_participants(self) -> List[str]:
         return [user.profile_img.url for user in self.participants.all()[:4]]
 
+    # TODO docs
     @property
     def get_first_image_url(self) -> str:
         event_file = self.eventfile_set.filter(is_primary=True).first()
         return event_file.file.url if event_file else None
 
+    # TODO docs
     @property
     def get_files_url(self) -> List[str]:
         return [event_file.file.url for event_file in self.eventfile_set.filter(is_primary=False) if event_file]

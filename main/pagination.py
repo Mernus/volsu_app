@@ -4,6 +4,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 
+# TODO docs
 class BasePagination(PageNumberPagination):
     page_size = 10
     page_query_param = 'page'

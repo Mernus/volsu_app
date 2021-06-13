@@ -112,6 +112,7 @@ def get_tokens(user: 'User', password: str, request: 'Request') -> dict[str, str
     return data
 
 
+# TODO docs
 def render_tags(tags: list['Tag']) -> list[str]:
     result = []
     for tag in tags:
