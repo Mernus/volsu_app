@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from main.models import EVENT_STATUSES, Event
+from main.serializers import EventUserSerializer
 from main.serializers.mixins import DateTimeFieldWihTZ
 
 
@@ -14,6 +15,7 @@ class EventSerializer(serializers.ModelSerializer):
     all_tags = serializers.ListField(source='get_all_tags_html', read_only=True)
     first_image = serializers.CharField(source='get_first_image_url', read_only=True)
     files = serializers.ListField(source='get_files_url', read_only=True)
+    participants = EventUserSerializer(many=True, read_only=True)
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs['context'].pop('request')

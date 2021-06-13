@@ -7,6 +7,19 @@ from main.models import USER_LEVELS, User
 from main.serializers import DateTimeFieldWihTZ
 
 
+class EventUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "username", "profile_img",
+            "organization",
+        ]
+        read_only_fields = [
+            "username", "profile_img",
+            "organization",
+        ]
+
+
 class UserSettingsSerializer(serializers.ModelSerializer):
     level_name = serializers.ChoiceField(source='get_level_display', choices=USER_LEVELS)
     added_aware = DateTimeFieldWihTZ(source='added', read_only=True)
