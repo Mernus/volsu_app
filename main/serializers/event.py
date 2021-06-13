@@ -57,5 +57,4 @@ class ListEventSerializer(serializers.ModelSerializer):
 
     # TODO docs
     def get_participants_number(self, obj) -> int:
-        raise Exception(obj.participants.all().count())
         return obj.participants.all().count()
