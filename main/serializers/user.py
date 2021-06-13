@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 from event_manager.auth import TimezoneField
 from main.models import USER_LEVELS, User
-from main.serializers import DateTimeFieldWihTZ
+from main.serializers.mixins import DateTimeFieldWihTZ
 
 
 class EventUserSerializer(serializers.ModelSerializer):
