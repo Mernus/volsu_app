@@ -8,14 +8,16 @@ from main.serializers.mixins import DateTimeFieldWihTZ
 
 
 class EventUserSerializer(serializers.ModelSerializer):
+    image = serializers.URLField(source='profile_img.url')
+
     class Meta:
         model = User
         fields = [
-            "username", "profile_img",
+            "username", "image",
             "organization",
         ]
         read_only_fields = [
-            "username", "profile_img",
+            "username", "image",
             "organization",
         ]
 
