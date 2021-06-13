@@ -179,31 +179,10 @@
                                     {% for user in participants %}
                                         <div class="container card">
                                             <img src="{{ user.image }}" alt="" width="90" height="90" class="img-fluid rounded-circle mb-3 shadow-sm">
-                                            <h2>John Doe</h2>
-                                            <p class="title">CEO & Founder, Example</p>
-                                            <p class="mb-4">Harvard University</p>
+                                            <h2>{{ user.username }}</h2>
+                                            <p class="title">{{ user.organization }}</p>
+                                            <p class="mb-4">{{ user.level_name }}</p>
                                             <button class="contact">Contact</button>
-                                        </div>
-                                        <div class="container">
-                                            <div class="row flex-row flex-nowrap text-center">
-                                                <div class="scrollable col-sm-4 mb-5">
-                                                    <div class="bg-white rounded shadow-sm py-5 px-4"><img
-                                                            src="{{ user.image }}"
-                                                            alt="" width="100"
-                                                            class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                                                        <h5 class="mb-0">{{ user.username }}</h5>
-                                                        {% if user.organization %}
-                                                            <span class="small text-uppercase text-muted">{{ user.organization }}</span>
-                                                        {% endif %}
-                                                        <ul class="social mb-0 list-inline mt-3">
-                                                            <li class="list-inline-item"><a href="#"
-                                                                                            class="social-link"><i
-                                                                    class="fa fa-comments-o" aria-hidden="true"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     {% endfor %}
                                 {% else %}
