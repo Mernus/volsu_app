@@ -15,6 +15,7 @@ USER_PROFILE_MAPPING = {
     'test2': "users/test2/profile_img.jpg",
     'test3': "users/test3/profile_img.png",
     'test4': "users/test4/profile_img.png",
+    'test5': "users/test5/profile_img.jpg",
 }
 
 # Directory with test data
@@ -67,4 +68,12 @@ user_04 = {
     'profile_img': get_user_profile_img('test4'),
 }
 
-users = [user_01, user_02, user_03, user_04]
+user_05 = {
+    'username': "test5",
+    'password': "test5",
+    'email': "test-5@volsu.kz",
+    'level': USER_LEVELS.ADMIN,
+    'profile_img': get_user_profile_img('test5'),
+}
+
+users = [user_01, user_02, user_03, user_04, user_05]

@@ -83,7 +83,7 @@ class Command(BaseCommand):
                     obj.tags.add(*random.sample(tag_ids, ids_num))
 
                 if obj.participants.count() == 0:
-                    ids_num = random.randint(1, 4)
+                    ids_num = random.randint(2, 5)
                     obj.participants.add(*random.sample(user_ids, ids_num))
 
         except Exception as exc:
