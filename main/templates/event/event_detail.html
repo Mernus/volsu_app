@@ -48,19 +48,19 @@
                                 <h5>Title:</h5>
                                 <h5>{{ title|truncatechars:35 }}</h5>
                             </div>
-                            <div class="header mt-3">
+                            <div class="header mt-2">
                                 <h5>Current status:</h5>
                                 <h5>{{ status_name }}</h5>
                             </div>
-                            <div class="header mt-3">
+                            <div class="header mt-2">
                                 <h5>Official website:</h5>
                                 <h5><a href="{{ website }}" target="_blank">{{ website|truncatechars:30 }}</a></h5>
                             </div>
-                            <div class="header mt-3">
+                            <div class="header mt-2">
                                 <h5>Location of event:</h5>
                                 <h5>{{ location }}</h5>
                             </div>
-                            <div class="header mt-3">
+                            <div class="header mt-2">
                                 <h5>Author of the event:</h5>
                                 <h5>
                                     {{ author_name }}
@@ -72,12 +72,12 @@
                                     {% endif %}
                                 </h5>
                             </div>
-                            <div class="header mt-3">
+                            <div class="header mt-2">
                                 <h5>Organization:</h5>
                                 <h5>{{ author_org|default:"No organization" }}</h5>
                             </div>
                             <hr class="my-3">
-                            <div class="header mt-3" style="justify-content: space-around;">
+                            <div class="header mt-3 mb-2" style="justify-content: space-around;">
                                 <h5>Start date: {{ start_date_aware }};</h5>
                                 <h5>End date: {{ end_date_aware }};</h5>
                             </div>
@@ -88,7 +88,7 @@
                             {% endif %} 
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-5">
                         <ul class="nav nav-tabs nav-fill" id="tab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="descr-tab" data-bs-toggle="tab"

@@ -12,6 +12,10 @@ body {
     margin-top: 26px
 }
 
+span.ml-3 {
+    font-weight: 600 !important;
+}
+
 #container {
     margin-left: 2rem;
     margin-right: 2rem;
