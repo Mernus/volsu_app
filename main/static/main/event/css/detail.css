@@ -80,5 +80,5 @@
 }
 
 .h5, h5 {
-    font-size: 1.15rem;
+    font-size: 1.15rem !important;
 }
