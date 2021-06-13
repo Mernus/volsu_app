@@ -65,10 +65,11 @@
                                 <h5>
                                     {{ author_name }}
                                     {% if author_image %}
-                                        <img class="rounded-circle ml-2" src="{{ author_image }}" width="30" height="30">
+                                        <img class="rounded-circle ml-2" src="{{ author_image }}" width="30"
+                                             height="30">
                                     {% else %}
                                         <img class="rounded-circle ml-2" src="{% static "main/anonymous_user.png" %}"
-                                             width="30"  height="30">
+                                             width="30" height="30">
                                     {% endif %}
                                 </h5>
                             </div>
@@ -84,8 +85,10 @@
                             {% if request.user not in participants %}
                                 <button type="submit" class="custombtn">Register</button>
                             {% else %}
-                                <button type="submit" class="custombtn" disabled style="color: #4abb48 !important;">Successfuly registred</button>
-                            {% endif %} 
+                                <button type="submit" class="custombtn" disabled style="color: #4abb48 !important;">
+                                    Successfuly registred
+                                </button>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="row mt-5">
@@ -174,6 +177,13 @@
                                  aria-labelledby="participants-tab">
                                 {% if participants %}
                                     {% for user in participants %}
+                                        <div class="container card">
+                                            <img src="{{ user.image }}" alt="" width="90" height="90" class="img-fluid rounded-circle mb-3 shadow-sm">
+                                            <h2>John Doe</h2>
+                                            <p class="title">CEO & Founder, Example</p>
+                                            <p class="mb-4">Harvard University</p>
+                                            <button class="contact">Contact</button>
+                                        </div>
                                         <div class="container">
                                             <div class="row flex-row flex-nowrap text-center">
                                                 <div class="scrollable col-sm-4 mb-5">

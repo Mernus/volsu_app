@@ -20,10 +20,10 @@ from main.exceptions import TokenAuthError
 from main.validators import FullnameValidator, TitleValidator
 
 USER_LEVELS = Choices(
-    (0, 'USER', 'Пользователь'),
-    (1, 'ORGANIZER', 'Организатор'),
-    (2, 'MODERATOR', 'Модератор'),
-    (3, 'ADMIN', 'Администратор'),
+    (0, 'USER', 'User'),
+    (1, 'ORGANIZER', 'Organizer'),
+    (2, 'MODERATOR', 'Moderator'),
+    (3, 'ADMIN', 'Admin'),
 )
 
 
