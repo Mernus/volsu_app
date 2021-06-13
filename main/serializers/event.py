@@ -42,7 +42,7 @@ class ListEventSerializer(serializers.ModelSerializer):
     author_fullname = serializers.StringRelatedField(source='author', read_only=True)
     author_image = serializers.ImageField(source='author.profile_img', read_only=True)
     first_image = serializers.CharField(source='get_first_image_url', read_only=True)
-    participants_number = serializers.ReadOnlyField(source='participants.count', read_only=True)
+    participants_number = serializers.SerializerMethodField()
 
     class Meta:
         model = Event
@@ -54,3 +54,6 @@ class ListEventSerializer(serializers.ModelSerializer):
         ]
 
         read_only_fields = ["first_image", "participants_number"]
+
+    def get_participants_number(self, obj):
+        return obj.participants.all().count()
