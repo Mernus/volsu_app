@@ -72,13 +72,13 @@ class RegistrationSerializer(serializers.Serializer):
             raise serializers.ValidationError("User with this email is already exists")
 
         try:
-            User.objects.create(**data)
+            user = User.objects.create(**data)
         except Exception as exc:
             self.request.session['user_creation_errors'] = "Error while user creation"
             raise serializers.ValidationError(f"UserCreateError({type(exc)}): {str(exc)}")
 
-        user = authenticate(self.request, username=username, password=password)
-        login(self.request, user)
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+
         token = user.get_token(password, self.request)
         self.request.session['user_id'] = user.id
         self.request.session['username'] = user.username
@@ -115,10 +115,8 @@ class LoginSerializer(serializers.Serializer):
             )
 
         user = get_object_or_None(User, email=username_or_email)
-        if user is not None:
-            username_or_email = user.username
-
-        user = authenticate(self.request, username=username_or_email, password=password)
+        if user is None:
+            user = get_object_or_None(User, username=username_or_email)
 
         if user is None:
             self.request.session['nouser_errors'] = "A user with this email and password was not found"
@@ -132,7 +130,8 @@ class LoginSerializer(serializers.Serializer):
                 "This user has been deactivated"
             )
 
-        login(self.request, user)
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+
         token = user.get_token(password, self.request)
         self.request.session['user_id'] = user.id
         self.request.session['username'] = user.username
