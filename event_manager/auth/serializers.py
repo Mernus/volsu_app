@@ -31,7 +31,7 @@ class TimezoneField(Field):
 class RegistrationSerializer(serializers.Serializer):
     username_validator = UnicodeUsernameValidator()
     username = serializers.CharField(validators=[username_validator], max_length=80)
-    password = serializers.CharField(max_length=128)
+    password = serializers.CharField(max_length=128, write_only=True)
     timezone = TimezoneField()
     email = serializers.EmailField()
 
@@ -72,7 +72,8 @@ class RegistrationSerializer(serializers.Serializer):
             raise serializers.ValidationError("User with this email is already exists")
 
         try:
-            user = User.objects.create(**data)
+            User.objects.create(**data)
+            user = get_object_or_None(User, username=username)
         except Exception as exc:
             self.request.session['user_creation_errors'] = "Error while user creation"
             raise serializers.ValidationError(f"UserCreateError({type(exc)}): {str(exc)}")
