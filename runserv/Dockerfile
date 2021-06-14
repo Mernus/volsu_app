@@ -1,8 +1,7 @@
 # TODO docs
 FROM python:3.9
 
-RUN apt-get update && apt-get install -y wget bzip2 ca-certificates build-essential curl git-core htop pkg-config unzip unrar tree freetds-dev vim \
-sudo net-tools flex perl automake bison libtool byacc
+RUN apt-get update && apt-get install -y wget bzip2 ca-certificates build-essential curl git-core htop pkg-config unzip tree sudo net-tools
 
 RUN apt-get update && apt-get install -y libv8-3.14-dev \
 libcurl4-gnutls-dev \
