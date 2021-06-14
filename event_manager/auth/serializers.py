@@ -73,7 +73,7 @@ class RegistrationSerializer(serializers.Serializer):
 
         try:
             user = User.objects.create(**data)
-        except (ValueError, TypeError) as exc:
+        except Exception as exc:
             self.request.session['user_creation_errors'] = "Error while user creation"
             raise serializers.ValidationError(f"UserCreateError({type(exc)}): {str(exc)}")
 
