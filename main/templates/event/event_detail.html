@@ -127,7 +127,7 @@
                                 {% endif %}
                             </div>
                             <div class="tab-pane fade mt-3" id="images" role="tabpanel" aria-labelledby="images-tab">
-                                {% if eventfile_set %}
+                                {% if files %}
                                     <div id="carouselControls" class="carousel slide" data-bs-ride="carousel">
                                         <div class="carousel-inner">
                                             {% for image in files %}
@@ -173,28 +173,30 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade mt-3" id="participants" role="tabpanel"
+                            <div class="tab-pane container-fluid fade mt-3" id="participants" role="tabpanel"
                                  aria-labelledby="participants-tab">
                                 {% if participants %}
-                                    {% for user in participants %}
-                                        <div class="container card">
-                                            {% if user.image %}
-                                                <img src="{{ user.image }}" alt="User Image"
-                                                 class="img-fluid rounded-circle mb-3 shadow-sm">
-                                            {% else %}
-                                                <img src="{% static "main/anonymous_user.png" %}" alt="User Image"
-                                                 class="img-fluid rounded-circle mb-3 shadow-sm">
-                                            {% endif %}
-                                            <h2>{{ user.username|truncatechars:8 }}</h2>
-                                            <p class="title">{{ user.organization|default_if_none:""|truncatechars:15 }}</p>
-                                            <p class="mb-4">
-                                                {% if user.level_name != "User" %}
-                                                    {{ user.level_name }}
+                                    <div class="d-flex flex-row flex-nowrap overflow-auto" style="padding: 10px;">
+                                        {% for user in participants %}
+                                            <div class="card" style="min-width: 260px !important;">
+                                                {% if user.image %}
+                                                    <img src="{{ user.image }}" alt="User Image"
+                                                         class="img-fluid rounded-circle mb-3 mt-5 shadow-sm">
+                                                {% else %}
+                                                    <img src="{% static "main/anonymous_user.png" %}" alt="User Image"
+                                                         class="img-fluid rounded-circle mb-3 mt-5 shadow-sm">
                                                 {% endif %}
-                                            </p>
-                                            <button class="contact">Contact</button>
-                                        </div>
-                                    {% endfor %}
+                                                <h2>{{ user.username|truncatechars:8 }}</h2>
+                                                <p class="title">{{ user.organization|default_if_none:""|truncatechars:15 }}</p>
+                                                <p class="mb-4">
+                                                    {% if user.level_name != "User" %}
+                                                        {{ user.level_name }}
+                                                    {% endif %}
+                                                </p>
+                                                <button class="contact">Contact</button>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
                                 {% else %}
                                     <div class="no-event">No participants registered to event yet</div>
                                 {% endif %}

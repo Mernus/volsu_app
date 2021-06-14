@@ -3,7 +3,7 @@
     margin-right: 2rem;
     height: 95%;
     position: absolute;
-    left: 12%;
+    left: 9%;
 }
 
 .no-event {
@@ -106,10 +106,12 @@
     background-color: #11101d;
     text-align: center;
     cursor: pointer;
-    width: 100%;
+    width: 60%;
     font-size: 18px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .contact:hover, a:hover {
@@ -117,8 +119,8 @@
 }
 
 img.img-fluid.rounded-circle.mb-3.shadow-sm {
-    width: 90px;
-    height: 90px;
+    width: 120px;
+    height: 120px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 1rem;
