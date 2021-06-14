@@ -31,7 +31,7 @@ class TimezoneField(Field):
 class RegistrationSerializer(serializers.Serializer):
     username_validator = UnicodeUsernameValidator()
     username = serializers.CharField(validators=[username_validator], max_length=80)
-    password = serializers.CharField(max_length=128, write_only=True)
+    password = serializers.CharField(max_length=128)
     timezone = TimezoneField()
     email = serializers.EmailField()
 
@@ -78,7 +78,7 @@ class RegistrationSerializer(serializers.Serializer):
             raise serializers.ValidationError(f"UserCreateError({type(exc)}): {str(exc)}")
 
         login(self.request, user)
-        token = user.get_token(user.password, self.request)
+        token = user.get_token(password, self.request)
         self.request.session['user_id'] = user.id
         self.request.session['username'] = user.username
 
