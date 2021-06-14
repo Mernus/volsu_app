@@ -77,7 +77,7 @@ class RegistrationSerializer(serializers.Serializer):
             self.request.session['user_creation_errors'] = "Error while user creation"
             raise serializers.ValidationError(f"UserCreateError({type(exc)}): {str(exc)}")
 
-        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+        # login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
 
         token = user.get_token(password, self.request)
         self.request.session['user_id'] = user.id
@@ -130,7 +130,7 @@ class LoginSerializer(serializers.Serializer):
                 "This user has been deactivated"
             )
 
-        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+        # login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
 
         token = user.get_token(password, self.request)
         self.request.session['user_id'] = user.id
