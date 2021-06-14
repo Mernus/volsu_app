@@ -73,11 +73,11 @@ class RegistrationSerializer(serializers.Serializer):
 
         try:
             User.objects.create(**data)
-            user = get_object_or_None(User, username=username)
         except Exception as exc:
             self.request.session['user_creation_errors'] = "Error while user creation"
             raise serializers.ValidationError(f"UserCreateError({type(exc)}): {str(exc)}")
 
+        user = authenticate(self.request, username=username, password=password)
         login(self.request, user)
         token = user.get_token(password, self.request)
         self.request.session['user_id'] = user.id
