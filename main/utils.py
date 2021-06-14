@@ -92,19 +92,22 @@ def get_tokens(user: 'User', password: str, request: 'Request') -> dict[str, str
     """
     access = request.session.get('jwt_access')
     data = {}
-
+    print(f"Access: {access}")
     if access is None:
+        print(f"Obtain")
         data = obtain_token({'username': user.username, 'password': password})
     else:
         try:
+            print(f"Verify")
             verify_token({'token': access})
         except TokenError:
             refresh = request.session.get('jwt_refresh')
             try:
+                print(f"Verify")
                 verify_token({'token': refresh})
-
                 data = refresh_token({'refresh': refresh})
             except TokenError:
+                print(f"Obtain")
                 data = obtain_token({'username': user.username, 'password': password})
         if not data:
             data = {'access': access}
