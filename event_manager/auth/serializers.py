@@ -72,7 +72,7 @@ class RegistrationSerializer(serializers.Serializer):
             raise serializers.ValidationError("User with this email is already exists")
 
         try:
-            user = User.objects.create(**data)
+            user = User.objects.create_user(**data)
         except Exception as exc:
             self.request.session['user_creation_errors'] = "Error while user creation"
             raise serializers.ValidationError(f"UserCreateError({type(exc)}): {str(exc)}")
