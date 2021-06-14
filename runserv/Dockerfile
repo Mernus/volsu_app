@@ -3,7 +3,9 @@ FROM python:3.9
 
 RUN apt-get update && apt-get install -y wget bzip2 ca-certificates build-essential curl git-core htop pkg-config unzip tree sudo net-tools
 
-RUN apt-get update && apt-get install -y graphviz libgraphviz-dev graphviz-dev python-pydot python-pydot-ng && pip install graphviz
+RUN apt-get update && apt-get install -y graphviz libgraphviz-dev graphviz-dev python-pydot python-pydot-ng && pip install graphviz && pip install pygraphviz
+# python manage.py  graph_models main > graph4.dot
+# python manage.py graph_models -a -I Event,EventFile,User,Tag -o graph4.png
 
 RUN mkdir /source
 RUN mkdir /logs
