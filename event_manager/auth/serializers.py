@@ -78,7 +78,7 @@ class RegistrationSerializer(serializers.Serializer):
             raise serializers.ValidationError(f"UserCreateError({type(exc)}): {str(exc)}")
 
         login(self.request, user)
-        token = user.get_token(data['password'], self.request)
+        token = user.get_token(user.password, self.request)
         self.request.session['user_id'] = user.id
         self.request.session['username'] = user.username
 
