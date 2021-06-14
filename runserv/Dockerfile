@@ -3,11 +3,7 @@ FROM python:3.9
 
 RUN apt-get update && apt-get install -y wget bzip2 ca-certificates build-essential curl git-core htop pkg-config unzip tree sudo net-tools
 
-RUN apt-get update && apt-get install -y libv8-3.14-dev \
-libcurl4-gnutls-dev \
-libxml2-dev
-
-RUN apt-get update && apt-get install -y graphviz && wget http://kr.archive.ubuntu.com/ubuntu/pool/universe/g/graphviz/graphviz_2.40.1-2_amd64.deb && dpkg -i graphviz_2.40.1-2_amd64.deb && pip3 install graphviz
+RUN apt-get update && apt-get install -y graphviz python-pydot python-pydot-ng && pip install graphviz
 
 RUN mkdir /source
 RUN mkdir /logs
