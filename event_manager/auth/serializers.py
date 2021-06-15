@@ -1,3 +1,4 @@
+from django.contrib.auth import login
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db.models import Q
 
@@ -78,6 +79,7 @@ class RegistrationSerializer(serializers.Serializer):
             self.request.session['user_creation_errors'] = "Error while user creation"
             raise serializers.ValidationError(f"UserCreateError({type(exc)}): {str(exc)}")
 
+        login(self.request, user)
         token = user.get_token(password, self.request)
         self.request.session['user_id'] = user.id
         self.request.session['username'] = user.username
@@ -122,6 +124,7 @@ class LoginSerializer(serializers.Serializer):
             self.request.session['deactivated_user_errors'] = "This user has been deactivated"
             raise serializers.ValidationError("This user has been deactivated")
 
+        login(self.request, user)
         token = user.get_token(password, self.request)
         self.request.session['user_id'] = user.id
         self.request.session['username'] = user.username
