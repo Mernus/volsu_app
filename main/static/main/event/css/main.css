@@ -73,11 +73,11 @@ span.ml-3 {
     }
 
     .h5, h5 {
-        font-size: 1.2rem;
+        font-size: 1.2rem !important;
     }
 
     .d-block {
-        font-size: 0.95rem;
+        font-size: 0.95rem !important;
     }
 }
 
@@ -95,11 +95,11 @@ span.ml-3 {
     }
 
     .h5, h5 {
-        font-size: 1.2rem;
+        font-size: 1.2rem !important;
     }
 
     .d-block {
-        font-size: 0.9rem;
+        font-size: 0.9rem !important;
     }
 }
 
@@ -112,11 +112,11 @@ span.ml-3 {
 
 @media (max-width: 1350px) {
     .h5, h5 {
-        font-size: 1.15rem;
+        font-size: 1.15rem !important;
     }
 
     .d-block {
-        font-size: 0.85rem;
+        font-size: 0.85rem !important;
     }
 }
 
@@ -145,15 +145,15 @@ span.ml-3 {
     }
 
     .stats {
-        font-size: 0.85rem;
+        font-size: 0.85rem !important;
     }
 
     .h5, h5 {
-        font-size: 1.1rem;
+        font-size: 1.1rem !important;
     }
 
     .d-block {
-        font-size: 0.9rem;
+        font-size: 0.9rem !important;
     }
 }
 
@@ -164,15 +164,15 @@ span.ml-3 {
     }
 
     .stats {
-        font-size: 0.8rem;
+        font-size: 0.8rem !important;
     }
 
     .h5, h5 {
-        font-size: 1.05rem;
+        font-size: 1.05rem !important;
     }
 
     .d-block {
-        font-size: 0.85rem;
+        font-size: 0.85rem !important;
     }
 }
 
@@ -190,15 +190,15 @@ span.ml-3 {
     }
 
     .stats {
-        font-size: 0.75rem;
+        font-size: 0.75rem !important;
     }
 
     .h5, h5 {
-        font-size: 1rem;
+        font-size: 1rem !important;
     }
 
     .d-block {
-        font-size: 0.8rem;
+        font-size: 0.8rem !important;
     }
 }
 
@@ -213,15 +213,15 @@ span.ml-3 {
     }
 
     .stats {
-        font-size: 0.9rem;
+        font-size: 0.9rem !important;
     }
 
     .h5, h5 {
-        font-size: 1.05rem;
+        font-size: 1.05rem !important;
     }
 
     .d-block {
-        font-size: 0.9rem;
+        font-size: 0.9rem !important;
     }
 }
 
@@ -239,15 +239,27 @@ span.ml-3 {
     }
 
     .stats {
-        font-size: 0.8rem;
+        font-size: 0.8rem !important;
     }
 
     .h5, h5 {
-        font-size: 0.95rem;
+        font-size: 0.95rem !important;
     }
 
     .d-block {
-        font-size: 0.8rem;
+        font-size: 0.8rem !important;
+    }
+
+    .sort-by {
+        font-size: .9rem !important;
+    }
+
+    h6 {
+        font-size: 0.9rem !important;
+    }
+
+    .filter {
+        display: none;
     }
 }
 
@@ -258,7 +270,43 @@ span.ml-3 {
     }
 
     .stats {
-        font-size: 0.75rem;
+        font-size: 0.75rem !important;
+    }
+
+    .h5, h5 {
+        font-size: 0.9rem !important;
+    }
+
+    .d-block {
+        font-size: 0.75rem !important;
+    }
+}
+
+@media (max-width: 510px) {
+    .credits > a > img {
+        width: 24rem;
+        height: 12rem;
+    }
+
+    img.rounded-circle {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .credits > a > img {
+        width: 22rem;
+        height: 11rem;
+    }
+
+    img.rounded-circle {
+        width: 20px;
+        height: 20px;
+    }
+
+    .participants {
+        display: none;
     }
 
     .h5, h5 {
@@ -266,6 +314,10 @@ span.ml-3 {
     }
 
     .d-block {
-        font-size: 0.75rem;
+        font-size: 0.7rem !important;
+    }
+
+    .stats {
+        font-size: 0.75rem !important;
     }
 }

@@ -271,7 +271,7 @@ span.app_name {
     background: #1d1b31;
 }
 
-.sidebar.active .profile #log_out,  .sidebar.active .profile #log_in{
+.sidebar.active .profile #log_out, .sidebar.active .profile #log_in {
     left: 88%;
 }
 
@@ -303,4 +303,10 @@ span.app_name {
 .sidebar.active ~ .main_content {
     width: calc(100% - 240px);
     left: 240px;
+}
+
+@media (max-width: 480px) {
+    .bx {
+        font-size: 16px !important;
+    }
 }
