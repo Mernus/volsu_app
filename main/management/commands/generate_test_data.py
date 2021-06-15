@@ -52,7 +52,7 @@ class Command(BaseCommand):
 
                 obj = get_object_or_None(User, username=username)
                 if obj is None:
-                    obj = User.objects.create(**user_kwargs)
+                    obj = User.objects.create_user(**user_kwargs)
 
                 obj.profile_img.save(profile_image.get('filename'), profile_image.get('file'))
                 user_ids.append(obj.id)
