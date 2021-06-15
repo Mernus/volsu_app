@@ -33,7 +33,7 @@ class RegistrationAPIView(APIView, BaseSessionPopMixin):
 
     def get(self, request):
         access_token = request.session.get('jwt_access')
-        if access_token is not None:
+        if access_token is not None and request.user.is_authenticated:
             self.session_pop(request)
             return redirect('/api/events')
 
@@ -67,7 +67,7 @@ class LoginAPIView(APIView, BaseSessionPopMixin):
 
     def get(self, request):
         access_token = request.session.get('jwt_access')
-        if access_token is not None:
+        if access_token is not None and request.user.is_authenticated:
             self.session_pop(request)
             return redirect('/api/events')
 
