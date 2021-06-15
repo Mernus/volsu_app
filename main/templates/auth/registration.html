@@ -26,12 +26,17 @@
     <!-- Login/Registration CSS -->
     <link rel="stylesheet" type="text/css" media="all" href={% static "main/auth/css/style.css" %}>
     <link rel="stylesheet" type="text/css" media="all" href={% static "main/auth/css/custom_select.css" %}>
+    <!-- FontAwesome Kit -->
+    <script src="https://kit.fontawesome.com/8d6423d7fb.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div id='outer_main' style="padding-top: 3%">
     <div class="main-w3">
         <form method="post">
             {% csrf_token %}
+            <a href="/api/events/">
+                <i class="fas fa-arrow-left"></i>
+            </a>
             <h1 style="margin-bottom: 0.5em">Sign Up</h1>
             <div class="login-w3ls">
                 <div class="icons">

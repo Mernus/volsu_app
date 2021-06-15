@@ -25,29 +25,38 @@
             crossorigin="anonymous"></script>
     <!-- Login/Registration CSS -->
     <link rel="stylesheet" type="text/css" media="all" href={% static "main/auth/css/style.css" %}>
+    <!-- FontAwesome Kit -->
+    <script src="https://kit.fontawesome.com/8d6423d7fb.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div id='outer_main'>
     <div class="main-w3">
         <form method="post" class="needs-validation" novalidate>
             {% csrf_token %}
+            <a href="/api/events/">
+                <i class="fas fa-arrow-left"></i>
+            </a>
             <h1>Sign In</h1>
             <div class="login-w3ls">
                 <div class="icons">
                     <label for="username_or_email">Username or email:</label>
                     {% if username_or_email_errors or nouser_errors or deactivated_user_errors %}
-                        <input type="text" name="username_or_email" class="form-control is-invalid" placeholder="Username or email" aria-describedby="validationUsername_or_emailFeedback" required>
+                        <input type="text" name="username_or_email" class="form-control is-invalid"
+                               placeholder="Username or email" aria-describedby="validationUsername_or_emailFeedback"
+                               required>
                         <div id="validationUsername_or_emailFeedback" class="invalid-feedback">
                             {% firstof username_or_email_errors nouser_errors deactivated_user_errors %}
                         </div>
                     {% else %}
-                        <input type="text" name="username_or_email" class="form-control" placeholder="Username or email" required>
+                        <input type="text" name="username_or_email" class="form-control" placeholder="Username or email"
+                               required>
                     {% endif %}
                 </div>
                 <div class="icons">
                     <label for="password">Password:</label>
                     {% if password_errors or nouser_errors or deactivated_user_errors %}
-                        <input type="password" name="password" class="form-control is-invalid" placeholder="Password" aria-describedby="validationPasswordFeedback" required>
+                        <input type="password" name="password" class="form-control is-invalid" placeholder="Password"
+                               aria-describedby="validationPasswordFeedback" required>
                         <div id="validationPasswordFeedback" class="invalid-feedback">
                             {% firstof password_errors nouser_errors deactivated_user_errors %}
                         </div>
